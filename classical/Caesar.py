@@ -1,4 +1,4 @@
-from Cipher import Cipher
+from .Cipher import Cipher
 
 
 class Caesar(Cipher):
@@ -9,12 +9,12 @@ class Caesar(Cipher):
         return self._perform(False, cipher)
 
     def _perform(self, encrypt, message, shift=3):
-        ''' 
-        Ceasar Cipher
+        """
+        Caesar Cipher
 
         @param encrypt - True for encryption, False for decryption
         @param shift - default 3
-        '''
+        """
         text = ""
 
         for char in message:

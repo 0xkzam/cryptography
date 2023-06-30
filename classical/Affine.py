@@ -1,16 +1,17 @@
-from Cipher import Cipher
-from util.Math import *
+from .Cipher import Cipher
+from .math_util import *
+
 
 class Affine(Cipher):
 
     def encrypt(self, text, key):
-        
-        a, b = key
-        m = 26 # English alphabet
 
-        if is_coprime(a, m):
+        a, b = key
+        m = 26  # English alphabet
+
+        if not is_coprime(a, m):
             raise Exception(" 'a' must be coprime with " + str(m))
-        
+
         cipher = ""
 
         for char in text:
@@ -18,20 +19,20 @@ class Affine(Cipher):
             if char.isalpha():
                 offset = ord('a') if char.islower() else ord('A')
                 x = ord(char) - offset
-                c = (a * x + b) % m       
-                cipher += chr( offset + c ) 
+                c = (a * x + b) % m
+                cipher += chr(offset + c)
             else:
                 cipher += char
-        
+
         return cipher
 
     def decrypt(self, cipher, key):
         a, b = key
-        m = 26 # English alphabet
+        m = 26  # English alphabet
 
-        if is_coprime(a, m):
+        if not is_coprime(a, m):
             raise Exception(" 'a' must be coprime with " + str(m))
-        
+
         text = ""
 
         for char in cipher:
@@ -40,10 +41,10 @@ class Affine(Cipher):
                 offset = ord('a') if char.islower() else ord('A')
                 x = ord(char) - offset
 
-                a_inv = mod_inverse(a, m)                
-                c = (a_inv *(x-b)) % m    
-                
-                text += chr( offset + c ) 
+                a_inv = mod_inverse(a, m)
+                c = (a_inv * (x - b)) % m
+
+                text += chr(offset + c)
             else:
-                text += char        
+                text += char
         return text

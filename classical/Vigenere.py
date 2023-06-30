@@ -1,6 +1,5 @@
-
-from Cipher import Cipher
-from Caesar import Caesar
+from .Cipher import Cipher
+from .Caesar import Caesar
 
 
 class Vigenere(Cipher):
