@@ -1,4 +1,5 @@
 from Cipher import Cipher
+from util.Math import *
 
 class Affine(Cipher):
 
@@ -6,6 +7,9 @@ class Affine(Cipher):
         
         a, b = key
         m = 26 # English alphabet
+
+        if is_coprime(a, m):
+            raise Exception(" 'a' must be coprime with " + str(m))
         
         cipher = ""
 
@@ -24,6 +28,9 @@ class Affine(Cipher):
     def decrypt(self, cipher, key):
         a, b = key
         m = 26 # English alphabet
+
+        if is_coprime(a, m):
+            raise Exception(" 'a' must be coprime with " + str(m))
         
         text = ""
 
@@ -33,24 +40,10 @@ class Affine(Cipher):
                 offset = ord('a') if char.islower() else ord('A')
                 x = ord(char) - offset
 
-                a_inv = self.mod_inverse(a, m)                
+                a_inv = mod_inverse(a, m)                
                 c = (a_inv *(x-b)) % m    
                 
                 text += chr( offset + c ) 
             else:
                 text += char        
         return text
-    
-    def extended_gcd(self, a, b):
-        if a == 0:
-            return b, 0, 1
-        else:
-            gcd, x, y = self.extended_gcd(b % a, a)
-            return gcd, y - (b // a) * x, x
-
-    def mod_inverse(self, a, m):
-        gcd, x, y = self.extended_gcd(a, m)
-        if gcd != 1:
-            raise Exception('Modular inverse does not exist')
-        else:
-            return x % m
