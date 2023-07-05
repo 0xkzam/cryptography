@@ -1,7 +1,6 @@
 # Cryptography Basics
 
 ## Classical Cryptography
-<br>
 
 #### Caesar Cipher
 - The standard Caesar Cipher is only used to encrypt alpha characters and other characters are ignored.
@@ -11,7 +10,6 @@
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>m</sub>) = (c<sub>1</sub>-3, c<sub>2</sub>-3… c<sub>m</sub>-3) (mod m)</code>
 - Standard implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py).
 
-<br>
 
 #### Vigenere Cipher
 - The standard Vigenere Cipher is only used to encrypt alpha characters and other characters are ignored.
@@ -24,7 +22,6 @@
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>y</sub>) = (c<sub>1</sub>-k<sub>1</sub>, c<sub>2</sub>-k<sub>2</sub>… c<sub>m</sub>-k<sub>y</sub>) (mod m)</code>
 - Standard implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py).
 
-<br>
 
 #### Affine Cipher
 - `m` = size of the alphabet (m = 26 for English letters)
@@ -39,6 +36,5 @@
     - Find <code>a<sup>-1</sup> mod n</code> using Extended Euclidean Algorithm 
 - Standard implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Affine.py).
 
-<br>
 
 
