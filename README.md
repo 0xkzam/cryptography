@@ -60,10 +60,13 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 - Encryption
   - Convert the message M into an integer `m`
+    - In practice, messages are converted into byte representations and broken down to smaller blocks.
   - Then <code> c = m<sup>e</sup> (mod n)</code> 
 
 - Decryption
   - <code> m = c<sup>d</sup> (mod n)</code> 
   - Then convert `m` back to M
+
+- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
 
 #### ElGamal
