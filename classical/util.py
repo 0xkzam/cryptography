@@ -17,7 +17,7 @@ def mod_inverse(a, m):
     """
     gcd, x, y = extended_gcd(a, m)
     if gcd != 1:
-        raise Exception('Modular inverse does not exist')
+        raise ValueError('Modular inverse does not exist')
     else:
         return x % m
 

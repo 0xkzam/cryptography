@@ -15,7 +15,7 @@ class Vigenere(Cipher):
         if len(key) <= 1:
             raise ValueError("Key must have minimum 2 alpha characters")
 
-        ceasar = Caesar()       
+        caesar = Caesar()
 
         key = key.upper()
         ord_offset = ord('A')
@@ -35,9 +35,9 @@ class Vigenere(Cipher):
                     ord_offset = ord('A')
 
                 if encrypt:
-                    text += ceasar._perform(True, char, key_indexes[key_index])
+                    text += caesar._perform(True, char, key_indexes[key_index])
                 else:
-                    text += ceasar._perform(False, char, key_indexes[key_index])
+                    text += caesar._perform(False, char, key_indexes[key_index])
                
                 alpha_index += 1
             else:

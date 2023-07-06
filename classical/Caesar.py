@@ -12,8 +12,8 @@ class Caesar(Cipher):
         """
         Caesar Cipher
 
-        @param encrypt - True for encryption, False for decryption
-        @param shift - default 3
+        :param encrypt - True for encryption, False for decryption
+        :param shift - default value = 3
         """
         text = ""
 

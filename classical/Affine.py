@@ -1,16 +1,20 @@
 from .Cipher import Cipher
-from .math_util import *
+from .util import *
 
 
 class Affine(Cipher):
 
     def encrypt(self, text, key):
+        """
+        :param text:
+        :param key: (a, b) tuple
+        """
 
         a, b = key
         m = 26  # English alphabet
 
         if not is_coprime(a, m):
-            raise Exception(" 'a' must be coprime with " + str(m))
+            raise ValueError(" 'a' must be coprime with " + str(m))
 
         cipher = ""
 
@@ -27,11 +31,16 @@ class Affine(Cipher):
         return cipher
 
     def decrypt(self, cipher, key):
+        """
+        :param cipher:
+        :param key: (a, b) tuple
+        """
+
         a, b = key
         m = 26  # English alphabet
 
         if not is_coprime(a, m):
-            raise Exception(" 'a' must be coprime with " + str(m))
+            raise ValueError(" 'a' must be coprime with " + str(m))
 
         text = ""
 
