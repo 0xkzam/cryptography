@@ -1,5 +1,6 @@
 # Cryptography Basics
-
+This repo is created solely for the purpose of learning. The code is mostly implemented from scratch for the purpose 
+of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
 
 ## Classical Cryptography
 
