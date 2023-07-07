@@ -70,3 +70,16 @@ class TestRSA(TestCase):
     #     print("public key: "+ str(e))
     #     n, d = RSA.gen_private_key(p, q, e)
     #     print("private key: " + str(d))
+
+    def test_encrypt_32bit_decrypt_32bit(self):
+        p, q = 45845791, 3731292319
+        n, e = RSA.gen_public_key(p, q)
+        n, d = RSA.gen_private_key(p, q, e)
+
+        message = "abcdefghijklmnopqrstuvwxyz!@#$%^&*()_+"
+        c = RSA.encrypt_32bit(n, e, message)
+        self.assertEqual(message, RSA.decrypt_32bit(n, d, c))
+
+        message = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKgRE+tUN2AVZJ5S/eHr/B/gdQreYX8OqVAeRJR0CgxIvDx3qFrMkjk2odflcV32ZuPv20fbW8MaBpUYEsoHSwECAwEAAQ=="
+        c = RSA.encrypt_32bit(n, e, message)
+        self.assertEqual(message, RSA.decrypt_32bit(n, d, c))

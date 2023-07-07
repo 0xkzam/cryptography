@@ -43,7 +43,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 
 #### RSA
 
-RSA (Ron Rivest, Adi Shamir, Leonard Adleman) is based on the Integer Factoring Problem using the product of 2 
+RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
 large primes. In theory large scale quantum computing could potentially break RSA encryption using Shor’s algorithm.
 
 - Key Generation
