@@ -38,8 +38,7 @@ def mod_inverse(a: int, m: int):
 
 
 def is_coprime(a: int, m: int) -> bool:
-    gcd, _, _ = extended_gcd(a, m)
-    return gcd == 1
+    return gcd(a, m) == 1
 
 
 def q1_isprime(n: int) -> bool:
