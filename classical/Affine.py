@@ -1,5 +1,5 @@
 from .Cipher import Cipher
-from .util import *
+from util.math import *
 
 
 class Affine(Cipher):
