@@ -4,7 +4,7 @@ from util.math import *
 
 class Affine(Cipher):
 
-    def encrypt(self, text, key):
+    def encrypt(self, text: str, key: str) -> str:
         """
         :param text:
         :param key: (a, b) tuple
@@ -30,7 +30,7 @@ class Affine(Cipher):
 
         return cipher
 
-    def decrypt(self, cipher, key):
+    def decrypt(self, cipher: str, key: str) -> str:
         """
         :param cipher:
         :param key: (a, b) tuple

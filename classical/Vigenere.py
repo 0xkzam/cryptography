@@ -4,13 +4,13 @@ from .Caesar import Caesar
 
 class Vigenere(Cipher):
 
-    def encrypt(self, text, key):
+    def encrypt(self, text: str, key) -> str:
         return self._perform(True, text, key)
 
-    def decrypt(self, cipher, key):
+    def decrypt(self, cipher: str, key) -> str:
         return self._perform(False, cipher, key)
 
-    def _perform(self, encrypt, message, key):
+    def _perform(self, encrypt: bool, message: str, key) -> str:
 
         if len(key) <= 1:
             raise ValueError("Key must have minimum 2 alpha characters")
@@ -25,7 +25,7 @@ class Vigenere(Cipher):
         alpha_index = 0
 
         for i in range(len(message)):
-            char = message[i]            
+            char = message[i]
 
             if char.isalpha():
                 key_index = alpha_index % len(key_indexes)
@@ -38,9 +38,9 @@ class Vigenere(Cipher):
                     text += caesar._perform(True, char, key_indexes[key_index])
                 else:
                     text += caesar._perform(False, char, key_indexes[key_index])
-               
+
                 alpha_index += 1
             else:
-                text += char    
+                text += char
 
         return text

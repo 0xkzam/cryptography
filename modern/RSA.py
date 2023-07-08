@@ -1,6 +1,6 @@
 import math
-from primePy import primes
-from classical.util import *
+from util.math import *
+from sympy.ntheory.primetest import isprime
 
 
 class RSA:
@@ -8,14 +8,13 @@ class RSA:
     int_32bit_max = 4294967296  # 2^32
 
     @staticmethod
-    def gen_public_key(p, q):
+    def gen_public_key(p: int, q: int) -> (int, int):
         """
         :param p: prime number
         :param q: prime number
         :return: tuple (n, e) where n=p*q, e = public key
         """
-
-        if not (primes.check(p) and primes.check(q)):
+        if not (isprime(p) and isprime(q)):
             raise ValueError("p & q must be prime.")
 
         phi = (p - 1) * (q - 1)
@@ -36,13 +35,16 @@ class RSA:
         return p * q, e
 
     @staticmethod
-    def gen_private_key(p, q, e):
+    def gen_private_key(p: int, q: int, e: int) -> (int, int):
         """
         :param p:
         :param q:
         :param e: public key
         :return: tuple (n, d) where n=p*q, d = private key
         """
+        if not (isprime(p) and isprime(q)):
+            raise ValueError("p & q must be prime.")
+
         phi = (p - 1) * (q - 1)
         if phi < e or math.gcd(phi, e) != 1:
             raise ValueError("Invalid public key")
@@ -50,7 +52,7 @@ class RSA:
         return p * q, mod_inverse(e, phi)
 
     @staticmethod
-    def encrypt(n, e, message):
+    def encrypt(n: int, e: int, message: str) -> int:
         """
         - This is the simplest implementation of RSA encryption.
         - The whole message is converted into an integer and encrypted.
@@ -69,7 +71,7 @@ class RSA:
         return c
 
     @staticmethod
-    def decrypt(n, d, cipher):
+    def decrypt(n: int, d: int, cipher: str) -> str:
         """
         This is used to decrypt the output from encrypt(n, e, message) function.
 
@@ -83,7 +85,7 @@ class RSA:
         return m.decode('utf-8')
 
     @staticmethod
-    def encrypt_32bit(n, e, message):
+    def encrypt_32bit(n: int, e: int, message: str):
         """
 
         :param n:
@@ -106,7 +108,7 @@ class RSA:
         return b''.join(c_blocks)
 
     @staticmethod
-    def decrypt_32bit(n, d, cipher):
+    def decrypt_32bit(n: int, d: int, cipher) -> str:
         """
 
         :param n:

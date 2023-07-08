@@ -2,13 +2,13 @@ from .Cipher import Cipher
 
 
 class Caesar(Cipher):
-    def encrypt(self, text, key=""):
+    def encrypt(self, text: str, key="") -> str:
         return self._perform(True, text)
 
-    def decrypt(self, cipher, key=""):
+    def decrypt(self, cipher: str, key="") -> str:
         return self._perform(False, cipher)
 
-    def _perform(self, encrypt, message, shift=3):
+    def _perform(self, encrypt: bool, message: str, shift=3) -> str:
         """
         Caesar Cipher
 
