@@ -102,6 +102,22 @@ class Test(TestCase):
         print("composite: " + str(x))
         print("time taken: " + str(end - start))
 
+    def test_factors(self):
+        num, expected = 1, []
+        self.assertEqual(expected, factors(num))
+
+        num, expected = 2, [2]
+        self.assertEqual(expected, factors(num))
+
+        num, expected = 3, [3]
+        self.assertEqual(expected, factors(num))
+
+        num, expected = 996, [2, 2, 3, 83]
+        self.assertEqual(expected, factors(num))
+
+        num, expected = 763823487, [3, 7, 139, 261673]
+        self.assertEqual(expected, factors(num))
+
     # Testing data
     large_primes = [174440041, 3731292319, 3657500101, 88362852307, 414507281407, 2428095424619, 4952019383323,
                     12055296811267, 17461204521323, 28871271685163, 53982894593057,

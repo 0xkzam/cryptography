@@ -1,4 +1,3 @@
-import math
 from util.math import *
 from sympy.ntheory.primetest import isprime
 
@@ -12,7 +11,7 @@ class RSA:
         """
         :param p: prime number
         :param q: prime number
-        :return: tuple (n, e) where n=p*q, e = public key
+        :return: tuple (n, e) where n=p*q, e = public key (encryption exponent)
         """
         if not (isprime(p) and isprime(q)):
             raise ValueError("p & q must be prime.")
@@ -21,14 +20,14 @@ class RSA:
 
         e = 0
         for i in RSA.fermat_primes:
-            if i < phi and math.gcd(phi, i) == 1:
+            if i < phi and gcd(phi, i) == 1:
                 e = i
                 break
 
         # In case 'e' not one of Fermat's primes
         if e == 0:
             for i in range(4, phi):
-                if math.gcd(phi, i) == 1:
+                if gcd(phi, i) == 1:
                     e = i
                     break
 
@@ -40,13 +39,13 @@ class RSA:
         :param p:
         :param q:
         :param e: public key
-        :return: tuple (n, d) where n=p*q, d = private key
+        :return: tuple (n, d) where n=p*q, d = private key (decryption exponent)
         """
         if not (isprime(p) and isprime(q)):
             raise ValueError("p & q must be prime.")
 
         phi = (p - 1) * (q - 1)
-        if phi < e or math.gcd(phi, e) != 1:
+        if phi < e or gcd(phi, e) != 1:
             raise ValueError("Invalid public key")
 
         return p * q, mod_inverse(e, phi)
@@ -71,7 +70,7 @@ class RSA:
         return c
 
     @staticmethod
-    def decrypt(n: int, d: int, cipher: str) -> str:
+    def decrypt(n: int, d: int, cipher: int) -> str:
         """
         This is used to decrypt the output from encrypt(n, e, message) function.
 
@@ -108,7 +107,7 @@ class RSA:
         return b''.join(c_blocks)
 
     @staticmethod
-    def decrypt_32bit(n: int, d: int, cipher) -> str:
+    def decrypt_32bit(n: int, d: int, cipher: bytes) -> str:
         """
 
         :param n:
