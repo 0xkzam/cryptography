@@ -3,7 +3,7 @@ This repo is created solely for the purpose of learning. The code is mostly impl
 of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
 
 ## Prime numbers
-- The probabilistic version of the **Milan-Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
+- The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
 - Reference [[link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)]
 
 ## Classical Cryptography
