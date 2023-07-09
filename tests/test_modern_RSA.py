@@ -53,25 +53,69 @@ class TestRSA(TestCase):
         end = time.time()
         print("large prime private key: " + str(d) + ", time taken: " + str(end - start))
 
-    def test_encrypt_decrypt(self):
+    def test_encrypt___decrypt__(self):
         p, q = 45845791, 3731292319
         n, e = RSA.gen_public_key(p, q)
         n, d = RSA.gen_private_key(p, q, e)
         message = "1234567"
 
-        c = RSA.encrypt(n, e, message)
-        msg = RSA.decrypt(n, d, c)
+        c = RSA.encrypt__(n, e, message)
+        msg = RSA.decrypt__(n, d, c)
         self.assertEqual(message, msg)
 
-    # def test_decrypt(self):
-    #     p, q = 17, 19
-    #     n, e = RSA.gen_public_key(p, q)
-    #
-    #     print("public key: "+ str(e))
-    #     n, d = RSA.gen_private_key(p, q, e)
-    #     print("private key: " + str(d))
+    def test_encrypt_decrypt(self):
+        p, q = 45845791, 3731292319
+        n, e = RSA.gen_public_key(p, q)
+        n, d = RSA.gen_private_key(p, q, e)
+        block_size = 8
 
-    def test_encrypt_32bit_decrypt_32bit(self):
+        # n is too small. n >= 2^(64)
+        with self.assertRaises(ValueError):
+            RSA.encrypt(n, e, block_size, "")
+
+        block_size = 7
+
+        # Empty
+        self.assertEqual(RSA.encrypt(n, e, block_size, ""), b"")
+
+        # Single character
+        message = "A"
+        c = RSA.encrypt(n, e, block_size, message)
+        self.assertEqual(message, RSA.decrypt(n, d, block_size, c))
+
+        # Alphanumeric + symbols
+        message = "abcdefghijklmnopqrstuvwxyz1234567890!@#$%^&*()_+"
+        c = RSA.encrypt(n, e, block_size, message)
+        self.assertEqual(message, RSA.decrypt(n, d, block_size, c))
+
+        # Arbitrary string
+        message = "MFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAKgRE+tUN2AVZJ5S/eHr/B/gdQreYX8OqVAeRJR0CgxIvDx3qFrMkjk2odflcV32ZuPv20fbW8MaBpUYEsoHSwECAwEAAQ=="
+        c = RSA.encrypt(n, e, block_size, message)
+        self.assertEqual(message, RSA.decrypt(n, d, block_size, c))
+
+        # Q5 - relatively small primes
+        n = 937513
+        e = 638471
+        p, q = 877, 1069
+        message = "Hello World!"
+
+        # n too small
+        block_size = 3
+        with self.assertRaises(ValueError):
+            RSA.encrypt(n, e, block_size, message)
+
+        # n too small
+        block_size = 4
+        with self.assertRaises(ValueError):
+            RSA.encrypt(n, e, block_size, message)
+
+        block_size = 2
+        c = RSA.encrypt(n, e, block_size, message)
+        n, d = RSA.gen_private_key(p, q, e)
+        msg = RSA.decrypt(n, d, block_size, c)
+        self.assertEqual(message, msg)
+
+    def test_encrypt_decrypt_32bit(self):
         p, q = 45845791, 3731292319
         n, e = RSA.gen_public_key(p, q)
         n, d = RSA.gen_private_key(p, q, e)

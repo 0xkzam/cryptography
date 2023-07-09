@@ -4,7 +4,7 @@ from sympy.ntheory.primetest import isprime
 
 class RSA:
     fermat_primes = [3, 5, 17, 257, 65537]
-    int_32bit_max = 4294967296  # 2^32
+    padding = b'\x00'
 
     @staticmethod
     def gen_public_key(p: int, q: int) -> (int, int):
@@ -51,7 +51,7 @@ class RSA:
         return p * q, mod_inverse(e, phi)
 
     @staticmethod
-    def encrypt(n: int, e: int, message: str) -> int:
+    def encrypt__(n: int, e: int, message: str) -> int:
         """
         - This is the simplest implementation of RSA encryption.
         - The whole message is converted into an integer and encrypted.
@@ -65,12 +65,12 @@ class RSA:
         """
         m = int.from_bytes(message.encode('utf-8'), byteorder='big')
         if m > n:
-            raise ValueError("Message too long: message length= " + str(m) + ", n=" + str(n))
+            raise ValueError("n is too small.")
         c = pow(m, e, n)
         return c
 
     @staticmethod
-    def decrypt(n: int, d: int, cipher: int) -> str:
+    def decrypt__(n: int, d: int, cipher: int) -> str:
         """
         This is used to decrypt the output from encrypt(n, e, message) function.
 
@@ -84,42 +84,80 @@ class RSA:
         return m.decode('utf-8')
 
     @staticmethod
-    def encrypt_32bit(n: int, e: int, message: str):
+    def encrypt(n: int, e: int, block_size: int, message: str) -> bytes:
         """
+        This is a more generic implementation that allows us to adjust the block size of the
+        encryption to align with the size of n.
 
         :param n:
-        :param e:
+        :param e: public key (encryption exponent)
+        :param block_size: size in bytes per block
         :param message: string
-        :return:
+        :return: bytes object of the encrypted message
         """
-        if n < RSA.int_32bit_max:
-            raise ValueError("n must be greater than or equal to 2**32")
+        min_n = 2 ** (block_size * 8)
+        if n < min_n:
+            raise ValueError("n must be greater than or equal to "+str(min_n))
 
         c_blocks = []
         msg_bytes = message.encode('utf-8')
-        for i in range(0, len(msg_bytes), 4):
-            block = msg_bytes[i:i + 4]
+        for i in range(0, len(msg_bytes), block_size):
+            block = msg_bytes[i:i + block_size]
+
+            # Last block is padded if less than block size
+            while len(block) < block_size:
+                block += RSA.padding
+
             m = int.from_bytes(block, byteorder='big')
             c = pow(m, e, n)
+
+            # Encrypted block is converted into a bytes object of the size of n.
+            # This enables us to separate the blocks of bytes in the decrypt function.
             c_bytes = c.to_bytes((n.bit_length() + 7) // 8, byteorder='big')
             c_blocks.append(c_bytes)
 
         return b''.join(c_blocks)
 
     @staticmethod
-    def decrypt_32bit(n: int, d: int, cipher: bytes) -> str:
+    def decrypt(n: int, d: int, block_size: int, cipher: bytes) -> str:
         """
+        Generic decryption function
 
         :param n:
-        :param d:
-        :param cipher:
-        :return:
+        :param d: private key (decryption exponent)
+        :param block_size: size in bytes per block
+        :param cipher: bytes object
+        :return: decrypted message string
         """
-        message = ""
-        for i in range(0, len(cipher), 8):
-            block = int.from_bytes(cipher[i:i + 8], byteorder='big')
-            m = pow(block, d, n)
-            b = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big')
-            message += b.decode('utf-8')
+        min_n = 2 ** (block_size * 8)
+        if n < min_n:
+            raise ValueError("n must be greater than or equal to " + str(min_n))
 
-        return message
+        message_bytes = b''
+        cipher_block_size = (n.bit_length() + 7) // 8
+
+        for i in range(0, len(cipher), cipher_block_size):
+            block = int.from_bytes(cipher[i:i + cipher_block_size], byteorder='big')
+            m = pow(block, d, n)
+            b = m.to_bytes(block_size, byteorder='big')
+            message_bytes += b
+
+        # Removing padding
+        while message_bytes[-1:] == RSA.padding:
+            message_bytes = message_bytes[:- 1]
+
+        return message_bytes.decode('utf-8')
+
+    @staticmethod
+    def encrypt_32bit(n: int, e: int, message: str):
+        """
+        block size = 4 bytes
+        """
+        return RSA.encrypt(n, e, 4, message)
+
+    @staticmethod
+    def decrypt_32bit(n: int, d: int, cipher: bytes) -> str:
+        """
+        block size = 4 bytes
+        """
+        return RSA.decrypt(n, d, 4, cipher)
