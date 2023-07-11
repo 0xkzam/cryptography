@@ -47,7 +47,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 
 #### RSA
 
-RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
+- RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
 large primes. In theory large scale quantum computing could potentially break RSA encryption using Shor’s algorithm.
 
 - Key Generation
@@ -73,5 +73,22 @@ large primes. In theory large scale quantum computing could potentially break RS
   - Then convert `m` back to M
 
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
+<br>
+<br>
+
+#### Deffi-Hellman Key Exchange protocol
+
+- This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
+- Key Generation
+  - Choose a prime number -> `p`
+  - Choose a primitive root (generator) -> `g`
+  - Choose Party A's private key `a` and B's private key `b` (Both are random numbers)
+  - Then A's public key, <code>A = g<sup>a</sup> mod p</code>
+  - And B's public key, <code>B = g<sup>b</sup> mod p</code>
+  - Compute shared secret key
+    - A computes -> <code>k<sub>A</sub> = B<sup>a</sup> mod p</code>
+    - B computes -> <code>k<sub>B</sub> = A<sup>b</sup> mod p</code>
+    - Both <code>k<sub>A</sub> and k<sub>B</sub></code> should be equal.
+- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
 
 #### ElGamal

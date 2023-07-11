@@ -1,0 +1,2 @@
+class ElGamal:
+    pass
