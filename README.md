@@ -74,15 +74,16 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
 <br>
-<br>
 
 #### Deffi-Hellman Key Exchange protocol
 
 - This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
 - Key Generation
-  - Choose a prime number -> `p`
-  - Choose a primitive root (generator) -> `g`
-  - Choose Party A's private key `a` and B's private key `b` (Both are random numbers)
+  - Choose 
+    - `p` -> a prime number
+    - `g` -> a primitive root (generator) 
+    - `a` -> A's private key (a random number)
+    - `b` -> B's private key (a random number)
   - Then A's public key, <code>A = g<sup>a</sup> mod p</code>
   - And B's public key, <code>B = g<sup>b</sup> mod p</code>
   - Compute shared secret key
@@ -90,5 +91,31 @@ large primes. In theory large scale quantum computing could potentially break RS
     - B computes -> <code>k<sub>B</sub> = A<sup>b</sup> mod p</code>
     - Both <code>k<sub>A</sub> and k<sub>B</sub></code> should be equal.
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
+<br>
 
 #### ElGamal
+
+- Taher Elgamal, 1985	
+- Based on Diffie Hellman key exchange
+- DSA is a variant of ElGamal signature scheme
+- Typically used to encrypt a symmetric key that is then used to encrypt the actual message.
+- ElGamal is said to be resistant to quantum attacks
+
+- Key Generation
+  - Choose
+    - `p` -> a large prime 
+    - `g` -> a primitive root of p
+    - `x` -> a secret key, such that `1 < x < p-1`
+  - Calculate <code>h = g<sup>x</sup>(mod p)</code>
+  - Public key = `(p, g, h)`
+  - Private key = `x`
+- Encryption
+  - Choose a random number `k` such that `1 < k < p-1`
+  - Calculate <code>c<sub>1</sub> = g<sup>k</sup> mod p</code>
+  - Calculate <code>c<sub>2</sub> = m * h<sup>k</sup> mod p</code>
+    - `m` = numerical representation of message M
+  - `C = (c1, c2)`    
+- Decryption
+  - Calculate <code>s = c<sub>1</sub><sup>x</sup> mod p</code> where `x` is the private key
+  - Then calculate <code>m = (c<sub>2</sub> * s<sup>-1</sup>) mod p</code>
+- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/ElGamal.py) _(WIP)_
