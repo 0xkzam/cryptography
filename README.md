@@ -112,7 +112,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Encryption
   - Choose a random number `k` such that `1 < k < p-1`
   - Calculate <code>c<sub>1</sub> = g<sup>k</sup> mod p</code>
-  - Calculate <code>c<sub>2</sub> = m * h<sup>k</sup> mod p</code>
+  - Calculate <code>c<sub>2</sub> = (m * h<sup>k</sup>) mod p</code>
     - `m` = numerical representation of message M
   - `C = (c1, c2)`    
 - Decryption
