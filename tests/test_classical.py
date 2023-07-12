@@ -54,7 +54,6 @@ class TestVigenere(TestCase):
 
         # edge case: key is longer than the text
         long_key = "ThisIsALongKeyThatIsLongerThanTheText"
-        self.assertFalse(v.encrypt("Hello", long_key), "Hello")
         self.assertEqual(v.decrypt(v.encrypt("Hello", long_key), long_key), "Hello")
 
         self.assertEqual(v.encrypt("hello world", key), "tcvpm imbpb")
