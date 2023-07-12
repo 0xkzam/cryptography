@@ -53,7 +53,7 @@ class RSA:
     @staticmethod
     def encrypt__(n: int, e: int, message: str) -> int:
         """
-        - This is the simplest implementation of RSA encryption.
+        - This is a basic implementation of RSA encryption.
         - The whole message is converted into an integer and encrypted.
         - The downside is that the integer 'm' that represents the message, must always be less than or equal to 'n'
         - ie. m <= n
@@ -72,7 +72,8 @@ class RSA:
     @staticmethod
     def decrypt__(n: int, d: int, cipher: int) -> str:
         """
-        This is used to decrypt the output from encrypt(n, e, message) function.
+        - This is a basic implementation of RSA decryption
+        - Used to decrypt output from encrypt__() function
 
         :param n: p*q
         :param d: private key (decryption exponent)
