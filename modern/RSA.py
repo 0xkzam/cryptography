@@ -98,7 +98,7 @@ class RSA:
         """
         min_n = 2 ** (block_size * 8)
         if n < min_n:
-            raise ValueError("n must be greater than or equal to "+str(min_n))
+            raise ValueError("n must be greater than or equal to " + str(min_n))
 
         c_blocks = []
         msg_bytes = message.encode('utf-8')
@@ -134,20 +134,22 @@ class RSA:
         if n < min_n:
             raise ValueError("n must be greater than or equal to " + str(min_n))
 
-        message_bytes = b''
+        message_blocks = []  # list of byte arrays
         cipher_block_size = (n.bit_length() + 7) // 8
 
         for i in range(0, len(cipher), cipher_block_size):
             block = int.from_bytes(cipher[i:i + cipher_block_size], byteorder='big')
             m = pow(block, d, n)
             b = m.to_bytes(block_size, byteorder='big')
-            message_bytes += b
+            message_blocks.append(b)
 
         # Removing padding
-        while message_bytes[-1:] == RSA.padding:
-            message_bytes = message_bytes[:- 1]
+        last_block = message_blocks[-1]
+        while last_block[-1:] == RSA.padding:
+            last_block = last_block[:- 1]
+        message_blocks[-1] = last_block
 
-        return message_bytes.decode('utf-8')
+        return b''.join(message_blocks).decode('utf-8')
 
     @staticmethod
     def encrypt_32bit(n: int, e: int, message: str):
