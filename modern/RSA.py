@@ -9,6 +9,8 @@ class RSA:
     @staticmethod
     def gen_public_key(p: int, q: int) -> (int, int):
         """
+        - Generate public key
+
         :param p: prime number
         :param q: prime number
         :return: tuple (n, e) where n=p*q, e = public key (encryption exponent)
@@ -36,9 +38,11 @@ class RSA:
     @staticmethod
     def gen_private_key(p: int, q: int, e: int) -> (int, int):
         """
-        :param p:
-        :param q:
-        :param e: public key
+        - Generate private key
+
+        :param p: prime number
+        :param q: prime number
+        :param e: public key (encryption exponent)
         :return: tuple (n, d) where n=p*q, d = private key (decryption exponent)
         """
         if not (isprime(p) and isprime(q)):
@@ -90,7 +94,7 @@ class RSA:
         This is a more generic implementation that allows us to adjust the block size of the
         encryption to align with the size of n.
 
-        :param n:
+        :param n: p * q
         :param e: public key (encryption exponent)
         :param block_size: size in bytes per block
         :param message: string
@@ -124,7 +128,7 @@ class RSA:
         """
         Generic decryption function
 
-        :param n:
+        :param n: p * q
         :param d: private key (decryption exponent)
         :param block_size: size in bytes per block
         :param cipher: bytes object
