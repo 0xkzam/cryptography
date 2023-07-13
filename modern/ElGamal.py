@@ -73,12 +73,12 @@ class ElGamal:
         """
         - This is a more generic implementation that allows us to adjust the block size of the
         - encryption to align with the size of public key.
-        - Only c2 is broken down to blocks.
+        - Only c2 {C= (c1, c2)} is broken down to blocks.
 
         :param pub_key: (p, g, h)
         :param block_size: size in bytes per block
         :param message: string
-        :return: (c1, c2) tuple
+        :return: (c1, c2)
         """
         (p, g, h) = pub_key
         k = random.randrange(2, p - 1)
@@ -90,6 +90,8 @@ class ElGamal:
 
         c_blocks = []
         msg_bytes = message.encode('utf-8')
+        cipher_block_size = (p.bit_length() + 7) // 8
+
         for i in range(0, len(msg_bytes), block_size):
             block = msg_bytes[i:i + block_size]
 
@@ -103,7 +105,7 @@ class ElGamal:
 
             # Encrypted block is converted into a bytes object of the size of p.
             # This enables us to separate the blocks of bytes in the decrypt function.
-            c_bytes = c2.to_bytes((p.bit_length() + 7) // 8, byteorder='big')
+            c_bytes = c2.to_bytes(cipher_block_size, byteorder='big')
             c_blocks.append(c_bytes)
 
         return c1, b''.join(c_blocks)
@@ -116,7 +118,7 @@ class ElGamal:
         :param pub_key: (p, g, h)
         :param private_key:
         :param block_size: size in bytes per block
-        :param cipher: (c1, c2) tuple
+        :param cipher: (c1, c2)
         :return: decrypted message string
         """
         p, _, _ = pub_key
@@ -127,17 +129,19 @@ class ElGamal:
         if p < min_n:
             raise ValueError("Block size and p don't match. p must be greater than or equal to " + str(min_n))
 
-        message_bytes = b''
+        message_blocks = []  # list of byte arrays
         cipher_block_size = (p.bit_length() + 7) // 8
 
         for i in range(0, len(c2), cipher_block_size):
             block = int.from_bytes(c2[i:i + cipher_block_size], byteorder='big')
             m = pow(block * mod_inverse(s, p), 1, p)
             b = m.to_bytes(block_size, byteorder='big')
-            message_bytes += b
+            message_blocks.append(b)
 
         # Removing padding
-        while message_bytes[-1:] == ElGamal.padding:
-            message_bytes = message_bytes[:- 1]
+        last_block = message_blocks[-1]
+        while last_block[-1:] == ElGamal.padding:
+            last_block = last_block[:- 1]
+        message_blocks[-1] = last_block
 
-        return message_bytes.decode('utf-8')
+        return b''.join(message_blocks).decode('utf-8')

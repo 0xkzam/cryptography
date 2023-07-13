@@ -96,7 +96,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 #### ElGamal
 
 - Taher Elgamal, 1985	
-- Based on Diffie Hellman key exchange
+- Based on Diffie-Hellman key exchange (Discrete Logarithm Problem).
 - DSA is a variant of ElGamal signature scheme
 - Typically used to encrypt a symmetric key that is then used to encrypt the actual message.
 - ElGamal is said to be resistant to quantum attacks
