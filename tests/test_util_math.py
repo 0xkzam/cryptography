@@ -7,13 +7,39 @@ import math
 class Test(TestCase):
 
     def test_gcd(self):
+
+        with self.assertRaises(ValueError):
+            self.assertEqual(gcd(0, 0), 0)
+
         self.assertEqual(gcd(1, 1), math.gcd(1, 1))
         self.assertEqual(gcd(1, 0), math.gcd(1, 0))
+        self.assertEqual(gcd(34, -12), math.gcd(34, -12))
+        self.assertEqual(gcd(-34, -12), math.gcd(-34, -12))
+
         self.assertEqual(gcd(100, 11), math.gcd(100, 11))
         self.assertEqual(gcd(499017086208, 676126714752), math.gcd(499017086208, 676126714752))
         self.assertEqual(gcd(5988737349, 578354589), math.gcd(5988737349, 578354589))
 
+    def test_gcd_recursive(self):
+
+        with self.assertRaises(ValueError):
+            self.assertEqual(gcd_recursive(0, 0), 0)
+
+        self.assertEqual(gcd_recursive(1, 1), math.gcd(1, 1))
+        self.assertEqual(gcd_recursive(1, 0), math.gcd(1, 0))
+        self.assertEqual(gcd_recursive(34, -12), math.gcd(34, -12))
+        self.assertEqual(gcd_recursive(-34, -12), math.gcd(-34, -12))
+
+        self.assertEqual(gcd_recursive(100, 11), math.gcd(100, 11))
+        self.assertEqual(gcd_recursive(499017086208, 676126714752), math.gcd(499017086208, 676126714752))
+        self.assertEqual(gcd_recursive(5988737349, 578354589), math.gcd(5988737349, 578354589))
+
     def test_extended_gcd(self):
+
+        p, q = 0, 0
+        with self.assertRaises(ValueError):
+            gcd_, s, t = extended_gcd(p, q)
+
         p, q = 1, 1
         gcd_, s, t = extended_gcd(p, q)
         self.assertEqual(gcd_, 1)
@@ -38,11 +64,48 @@ class Test(TestCase):
         gcd_, s, t = extended_gcd(p, q)
         self.assertEqual(p * s + q * t, gcd_)
 
-    def test_mod_inverse(self):
-        a_inv = mod_inverse(0, 1)
-        self.assertEqual(0, a_inv)
+    def test_extended_gcd_recursive(self):
 
-        a_inv = mod_inverse(1, 1)
+        p, q = 0, 0
+        with self.assertRaises(ValueError):
+            gcd_, s, t = extended_gcd_recursive(p, q)
+
+        p, q = 1, 1
+        gcd_, s, t = extended_gcd_recursive(p, q)
+        self.assertEqual(gcd_, 1)
+        self.assertEqual(p * s + q * t, gcd_)
+
+        p, q = 1, 0
+        gcd_, s, t = extended_gcd_recursive(p, q)
+        self.assertEqual(gcd_, 1)
+        self.assertEqual(p * s + q * t, gcd_)
+
+        p, q = 161, 28
+        gcd_, s, t = extended_gcd_recursive(p, q)
+        self.assertEqual(gcd_, 7)
+        self.assertEqual(p * s + q * t, gcd_)
+
+        p, q = 28, 161
+        gcd_, s, t = extended_gcd_recursive(p, q)
+        self.assertEqual(gcd_, 7)
+        self.assertEqual(p * s + q * t, gcd_)
+
+        p, q = -45122, 885
+        gcd_, s, t = extended_gcd_recursive(p, q)
+        self.assertEqual(p * s + q * t, gcd_)
+
+    def test_mod_inverse(self):
+        # 0 <= a < m and m > 1
+        with self.assertRaises(ValueError):
+            a_inv = mod_inverse(4, 3)
+        with self.assertRaises(ValueError):
+            a_inv = mod_inverse(2, -3)
+        with self.assertRaises(ValueError):
+            a_inv = mod_inverse(-2, 3)
+        with self.assertRaises(ValueError):
+            a_inv = mod_inverse(1, 1)
+
+        a_inv = mod_inverse(0, 1)
         self.assertEqual(0, a_inv)
 
         a_inv = mod_inverse(11, 26)

@@ -5,7 +5,17 @@ def gcd(a: int, b: int) -> int:
     """
     Euclidean Algorithm - iterative
     - Iterative implementation is efficient compared to recursive version since there is no function overhead.
+    - Absolute values of a and b are considered
     """
+    if a == 0 and b == 0:
+        raise ValueError("gcd is undefined when a=0 and b=0.")
+
+    a, b = abs(a), abs(b)  # only absolute values are considered
+    if a == 0:
+        return b
+    elif b == 0:
+        return a
+
     while b != 0:
         a, b = b, a % b
     return a
@@ -15,8 +25,15 @@ def gcd_recursive(a: int, b: int) -> int:
     """
     Euclidean Algorithm - recursive
     - Recursive implementation could lead to stackoverflow because of the function overhead
+    - Absolute values of a and b are considered
     """
-    if b == 0:
+    if a == 0 and b == 0:
+        raise ValueError("gcd is undefined when a=0 and b=0.")
+
+    a, b = abs(a), abs(b)  # only absolute values are considered
+    if a == 0:
+        return b
+    elif b == 0:
         return a
     else:
         return gcd(b, a % b)
@@ -30,6 +47,14 @@ def extended_gcd(a: int, b: int) -> (int, int, int):
 
     :return: gcd, x, y
     """
+    if a == 0 and b == 0:
+        raise ValueError("gcd is undefined when a=0 and b=0.")
+
+    if a == 0:
+        return b, 0, 1
+    elif b == 0:
+        return a, 1, 0
+
     x, y, u, v = 0, 1, 1, 0
     while a != 0:
         q, r = b // a, b % a
@@ -43,21 +68,30 @@ def extended_gcd_recursive(a: int, b: int) -> (int, int, int):
     Extended Euclidean Algorithm - recursive
     - ax + by = gcd(a,b)
     - Recursive implementation could lead to stackoverflow because of the function overhead
+
     :return: gcd, x, y
     """
+    if a == 0 and b == 0:
+        raise ValueError("gcd is undefined when a=0 and b=0.")
+
     if a == 0:
         return b, 0, 1
+    elif b == 0:
+        return a, 1, 0
     else:
         gcd_, x, y = extended_gcd_recursive(b % a, a)
         return gcd_, y - (b // a) * x, x
 
 
-def mod_inverse(a: int, m: int):
+def mod_inverse(a: int, m: int) -> int:
     """
     a^(-1) mod m
 
     :return: modular inverse of a
     """
+    if not (0 <= a < m and m > 0):
+        raise ValueError('m and n must be such that 0 <= a < m and m > 1')
+
     gcd_, x, y = extended_gcd(a, m)
     if gcd_ != 1:
         raise ValueError('Modular inverse does not exist')
