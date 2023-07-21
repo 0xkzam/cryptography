@@ -137,15 +137,15 @@ large primes. In theory large scale quantum computing could potentially break RS
 <a id="item-7"></a>
 #### Shamir's Secret Sharing 
 Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
-The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree k-1 where k is the minimum number of pieces required to reconstruct the secret and n is the total number of pieces the secret is split into.
+The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree `k-1` where `k` is the minimum number of pieces required to reconstruct the secret and `n` is the total number of pieces the secret is split into.
 
-- Let the secret be D
-- Let number of splits be n
-- Choose k such that n/2 < k ≤ n
-- The polynomial f(x) = a0 + a1x + a2x2 +... + ak-1 xk-1
-  - Here, a0 = D
-  - Choose coefficients a1, a2, ...,ak-1 randomly from a finite field
-- Then generate n pairs of (x, f(x))
-  - Calculate f(x) for x = 1 , 2, …,n
+- Let the secret be `D`
+- Let number of splits be `n`
+- Choose k such that `n/2 < k ≤ n`
+- The polynomial <code>f(x) = a<sub>0</sub> + a<sub>1</sub>x + a<sub>2</sub>x<sup>2</sup> +... + a<sub>k-1</sub> x<sup>k-1</sup></code>
+  - Here, `a0 = D`
+  - Choose coefficients a<sub>1</sub>, a<sub>2</sub>, ...,a<sub>k-1</sub> randomly from a finite field
+- Then generate `n` pairs of `(x, f(x))`
+  - Calculate `f(x)` for `x = 1 , 2, …,n`
 
-The n pairs are distributed among the n parties. Since the polynomial is of degree k-1, we only need k pairs to reconstruct the polynomial using interpolation and compute D. 
+The `n` pairs are distributed among the `n` parties. Since the polynomial is of degree `k-1`, we only need `k` pairs to reconstruct the polynomial using interpolation and compute `D`. 
