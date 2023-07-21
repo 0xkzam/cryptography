@@ -2,14 +2,14 @@
 This repo is created solely for the purpose of learning. The code is mostly implemented from scratch for the purpose 
 of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
 
-## Contents
-- [Caesar Cipher](#item-1)
-- [Vigenere Cipher](#item-2)
-- [Affine Cipher](#item-3)
-- [RSA](#item-4)
-- [Deffi-Hellman Key Exchange](#item-5)
-- [ElGamal](#item-6)
-- [Shamir's Secret Sharing](#item-7)
+#### Contents
+  - [Caesar Cipher](#item-1)
+  - [Vigenere Cipher](#item-2)
+  - [Affine Cipher](#item-3)
+  - [RSA](#item-4)
+  - [Deffi-Hellman Key Exchange](#item-5)
+  - [ElGamal](#item-6)
+  - [Shamir's Secret Sharing](#item-7)
 
 ## Prime numbers
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
