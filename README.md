@@ -143,7 +143,7 @@ The main principle behind SSS is the use of polynomial interpolation. We can fin
 - Let number of splits be `n`
 - Choose k such that `n/2 < k ≤ n`
 - The polynomial <code>f(x) = a<sub>0</sub> + a<sub>1</sub>x + a<sub>2</sub>x<sup>2</sup> +... + a<sub>k-1</sub> x<sup>k-1</sup></code>
-  - Here, `a0 = D`
+  - Here, <code>a<sub>0</sub> = D</code>
   - Choose coefficients a<sub>1</sub>, a<sub>2</sub>, ...,a<sub>k-1</sub> randomly from a finite field
 - Then generate `n` pairs of `(x, f(x))`
   - Calculate `f(x)` for `x = 1 , 2, …,n`
