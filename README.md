@@ -2,12 +2,22 @@
 This repo is created solely for the purpose of learning. The code is mostly implemented from scratch for the purpose 
 of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
 
+## Contents
+- [Caesar Cipher](#item-1)
+- [Vigenere Cipher](#item-2)
+- [Affine Cipher](#item-3)
+- [RSA](#item-4)
+- [Deffi-Hellman Key Exchange](#item-5)
+- [ElGamal](#item-6)
+- [Shamir's Secret Sharing](#item-7)
+
 ## Prime numbers
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
-- Reference [[link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)]
+  - Reference [[link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)]
 
 ## Classical Cryptography
 
+<a id="item-1"></a>
 #### Caesar Cipher
 - The standard Caesar Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Each character in the plain text is shifted by a constant (Standard shift = 3).
@@ -16,7 +26,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>m</sub>) = (c<sub>1</sub>-3, c<sub>2</sub>-3… c<sub>m</sub>-3) (mod m)</code>
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py).
 
-
+<a id="item-2"></a>
 #### Vigenere Cipher
 - The standard Vigenere Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Uses a series of different Caesar Ciphers according to the key.
@@ -28,7 +38,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>y</sub>) = (c<sub>1</sub>-k<sub>1</sub>, c<sub>2</sub>-k<sub>2</sub>… c<sub>m</sub>-k<sub>y</sub>) (mod m)</code>
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py).
 
-
+<a id="item-3"></a>
 #### Affine Cipher
 - `m` = size of the alphabet (m = 26 for English letters)
 - Key = (a,b) 
@@ -45,6 +55,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 
 ## Modern Cryptography
 
+<a id="item-4"></a>
 #### RSA
 
 - RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
@@ -75,6 +86,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
 <br>
 
+<a id="item-5"></a>
 #### Deffi-Hellman Key Exchange protocol
 
 - This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
@@ -93,6 +105,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
 <br>
 
+<a id="item-6"></a>
 #### ElGamal
 
 - Taher Elgamal, 1985	
@@ -119,3 +132,20 @@ large primes. In theory large scale quantum computing could potentially break RS
   - Calculate <code>s = c<sub>1</sub><sup>x</sup> mod p</code> where `x` is the private key
   - Then calculate <code>m = (c<sub>2</sub> * s<sup>-1</sup>) mod p</code>
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/ElGamal.py) _(WIP)_
+
+
+<a id="item-7"></a>
+#### Shamir's Secret Sharing 
+Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
+The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree k-1 where k is the minimum number of pieces required to reconstruct the secret and n is the total number of pieces the secret is split into.
+
+- Let the secret be D
+- Let number of splits be n
+- Choose k such that n/2 < k ≤ n
+- The polynomial f(x) = a0 + a1x + a2x2 +... + ak-1 xk-1
+  - Here, a0 = D
+  - Choose coefficients a1, a2, ...,ak-1 randomly from a finite field
+- Then generate n pairs of (x, f(x))
+  - Calculate f(x) for x = 1 , 2, …,n
+
+The n pairs are distributed among the n parties. Since the polynomial is of degree k-1, we only need k pairs to reconstruct the polynomial using interpolation and compute D. 
