@@ -148,4 +148,5 @@ The main principle behind SSS is the use of polynomial interpolation. We can fin
 - Then generate `n` pairs of `(x, f(x))`
   - Calculate `f(x)` for `x = 1 , 2, …,n`
 
-The `n` pairs are distributed among the `n` parties. Since the polynomial is of degree `k-1`, we only need `k` pairs to reconstruct the polynomial using interpolation and compute `D`. 
+- The `n` pairs are distributed among the `n` parties. Since the polynomial is of degree `k-1`, we only need `k` pairs to reconstruct the polynomial using interpolation and compute `D`. 
+- A basic implementation [here](https://github.com/0xkzam/cryptography/blob/main/modern/SSS.py) _(WIP)_
