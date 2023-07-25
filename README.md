@@ -1,24 +1,28 @@
-# Cryptography Basics
+## Cryptography Basics
 This repo is created solely for the purpose of learning. The code is mostly implemented from scratch for the purpose 
 of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
 
 #### Contents
-  - [Caesar Cipher](#item-1)
-  - [Vigenere Cipher](#item-2)
-  - [Affine Cipher](#item-3)
-  - [RSA](#item-4)
-  - [Deffi-Hellman Key Exchange](#item-5)
-  - [ElGamal](#item-6)
-  - [Shamir's Secret Sharing](#item-7)
+  - [Classical](#item-a)
+    - [Caesar Cipher](#item-1)
+    - [Vigenere Cipher](#item-2)
+    - [Affine Cipher](#item-3)
+  - [Modern](#item-b)
+    - [RSA](#item-4)
+    - [Deffi-Hellman Key Exchange](#item-5)
+    - [ElGamal](#item-6)
+    - [SHA256](#item-7)
+    - [Shamir's Secret Sharing](#item-8)
 
-## Prime numbers
+### Prime numbers
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
   - Reference [[link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)]
 
+<a id="item-a"></a>
 ## Classical Cryptography
 
 <a id="item-1"></a>
-#### Caesar Cipher
+### Caesar Cipher
 - The standard Caesar Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Each character in the plain text is shifted by a constant (Standard shift = 3).
 - `m` = size of the alphabet (m = 26 for English letters)
@@ -27,7 +31,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py).
 
 <a id="item-2"></a>
-#### Vigenere Cipher
+### Vigenere Cipher
 - The standard Vigenere Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Uses a series of different Caesar Ciphers according to the key.
 - Has a key K = (k<sub>1</sub>, k<sub>2</sub>... k<sub>y</sub>) that contains only alpha characters.
@@ -39,7 +43,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py).
 
 <a id="item-3"></a>
-#### Affine Cipher
+### Affine Cipher
 - `m` = size of the alphabet (m = 26 for English letters)
 - Key = (a,b) 
     - Choose `a` such that `m` and `a` are coprime (ie. greatest common divisor = 1)
@@ -52,11 +56,11 @@ of understanding the fundamentals of cryptographic primitives and does not follo
     - Find <code>a<sup>-1</sup> mod n</code> using Extended Euclidean Algorithm 
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Affine.py).
 
-
+<a id="item-b"></a>
 ## Modern Cryptography
 
 <a id="item-4"></a>
-#### RSA
+### RSA
 
 - RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
 large primes. In theory large scale quantum computing could potentially break RSA encryption using Shor’s algorithm.
@@ -84,10 +88,9 @@ large primes. In theory large scale quantum computing could potentially break RS
   - Then convert `m` back to M
 
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
-<br>
 
 <a id="item-5"></a>
-#### Deffi-Hellman Key Exchange protocol
+### Deffi-Hellman Key Exchange protocol
 
 - This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
 - Key Generation
@@ -103,10 +106,10 @@ large primes. In theory large scale quantum computing could potentially break RS
     - B computes -> <code>k<sub>B</sub> = A<sup>b</sup> mod p</code>
     - Both <code>k<sub>A</sub> and k<sub>B</sub></code> should be equal.
 - A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
-<br>
+
 
 <a id="item-6"></a>
-#### ElGamal
+### ElGamal
 
 - Taher Elgamal, 1985	
 - Based on Diffie-Hellman key exchange (Discrete Logarithm Problem).
@@ -135,7 +138,24 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 <a id="item-7"></a>
-#### Shamir's Secret Sharing 
+### SHA256
+- Follows the Merkel-Damgard paradigm, which is used in the MD5, SHA-1 and SHA-2 family.
+- Takes an arbitrary length input, breaks it up into blocks of 512 bits, processes each block, and finally outputs a 256 bit value.
+
+  - Message M is divided into blocks of 512 bits ( M<sub>1</sub>, M<sub>2</sub>,..., M<sub>n</sub>)
+    - If the last block is less than 512 bits it’s padded by adding a ‘1’ bit followed by 0s. 
+  - Generate the initial hash value, H<sub>0</sub>
+    - Derived from the fractional parts of the square roots of the first 8 prime numbers (2, 3, 5, 7, 11, 13, 17, 19), which results in 8 x 32 bit words, ie. 256 bit value
+  - Each message block is passed to the compression function, which takes 2 inputs
+    - Hash of the previous message block, H<sub>k-1</sub>
+    - Current message block, M<sub>k</sub>
+  - For each M<sub>k</sub> the compression function runs 64 rounds, conducting a series of operations (ie. bitwise operations, addition of cube roots of the first 64 primes, addition modulo 2<sup>32</sup>, etc.) before producing the next state H<sub>k</sub>
+    - H = H<sub>0</sub>
+    - for each M<sub>k</sub> → H<sub>k</sub> = compress(H<sub>k-1</sub>, M<sub>k</sub>)
+
+
+<a id="item-8"></a>
+### Shamir's Secret Sharing 
 Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
 The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree `k-1` where `k` is the minimum number of pieces required to reconstruct the secret and `n` is the total number of pieces the secret is split into.
 
