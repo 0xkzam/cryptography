@@ -181,6 +181,13 @@ class Test(TestCase):
         num, expected = 763823487, [3, 7, 139, 261673]
         self.assertEqual(expected, factors(num))
 
+    def test_is_primitive_root(self):
+        g = 2
+        p = 13
+        self.assertTrue(is_primitive_root(g, p))
+        g = 3
+        self.assertFalse(is_primitive_root(g, p))
+
     # Testing data
     large_primes = [174440041, 3731292319, 3657500101, 88362852307, 414507281407, 2428095424619, 4952019383323,
                     12055296811267, 17461204521323, 28871271685163, 53982894593057,

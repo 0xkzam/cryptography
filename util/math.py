@@ -1,4 +1,5 @@
 import random
+from sympy.ntheory.primetest import isprime
 
 
 def gcd(a: int, b: int) -> int:
@@ -200,3 +201,20 @@ def factors(n: int) -> list:
         ls_factors.append(n)
 
     return ls_factors
+
+
+def is_primitive_root(g: int, p: int) -> bool:
+    """
+    - Basic algorithm for checking primitive roots
+    - Not efficient for large primes
+    """
+    if not (1 < g < p):
+        raise ValueError("2 <= g <= p-1")
+    if not isprime(p):
+        raise ValueError("p should be a prime number.")
+
+    s = set()
+    for i in range(1, p):
+        s.add(pow(g, i, p))
+
+    return len(s) == p - 1
