@@ -12,7 +12,8 @@ of understanding the fundamentals of cryptographic primitives and does not follo
     - [Deffi-Hellman Key Exchange](#item-5)
     - [ElGamal](#item-6)
     - [SHA256](#item-7)
-    - [Shamir's Secret Sharing](#item-8)
+    - [DSA](#item-8)
+    - [Shamir's Secret Sharing](#item-9)
 
 ### Prime numbers
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
@@ -155,6 +156,36 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 <a id="item-8"></a>
+### DSA
+- Standard DSA is based on ElGamal.
+
+- Key Generation
+  - Choose 
+    - A large prime `q`
+    - A prime `p` such that (p-1) is divisible by q (i.e. p = kq + 1 for some integer k)
+    - A primitive root `g` (mod p)
+  - The secret (i.e. private key), `z` such that 1 < z < q
+  - Calculate <code>⍺ = g<sup>(p-1)/q</sup> (mod p)</code>
+  - Calculate <code>𝝱 = ⍺<sup>z</sup> (mod p)</code>
+  - Thus, the public key = (p, q, ⍺, 𝝱)
+
+- Signing Protocol
+  - Choose a random number `k` such that 1 < k < q
+  - Calculate <code>r =  (⍺<sup>k</sup> mod p) (mod q)</code>
+  - Calculate <code>s = k<sup>-1</sup> (x + zr) (mod q) </code>
+    - x = message hash
+  - Thus, the signature = (r, s)
+
+- Signature Verification
+  - Calculate
+    - <code>u1 = s<sup>-1</sup>x mod q</code>
+    - <code>u2 = s<sup>-1</sup>r mod q</code>
+    - <code>v = (⍺<sup>u1</sup>𝝱<sup>u2</sup> mod p) mod q</code>
+- Then the signature is verified if v = r
+- A basic implementation [here](https://github.com/0xkzam/cryptography/blob/main/modern/DSA.py) _(WIP)_
+
+
+<a id="item-9"></a>
 ### Shamir's Secret Sharing 
 Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
 The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree `k-1` where `k` is the minimum number of pieces required to reconstruct the secret and `n` is the total number of pieces the secret is split into.
