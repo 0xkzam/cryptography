@@ -26,6 +26,20 @@ class TestElGamal(TestCase):
         msg = ElGamal.decrypt__(pub_key, private_key, c)
         self.assertEqual(message, msg)
 
+        # when message is an integer===================
+        # use_bytes = False
+        p, g = 47, 5
+        message = "11"
+        private_key = 42
+        r = 9
+
+        pub_key, _ = ElGamal.gen_keys(p, g, private_key)
+        _, _, h = pub_key
+        c1, c2 = ElGamal.encrypt__(pub_key, message, r, False)
+        decrypted_message = ElGamal.decrypt__(pub_key, private_key, (c1, c2), False)
+
+        self.assertEqual(message, decrypted_message)
+
     def test_encrypt_decrypt_(self):
         p, g = 3731292319, 14
         pub_key, private_key = ElGamal.gen_keys(p, g)

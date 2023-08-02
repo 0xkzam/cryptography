@@ -26,7 +26,7 @@ class ElGamal:
         return (p, g, h), private_key
 
     @staticmethod
-    def encrypt__(pub_key: (int, int, int), message: str) -> (int, int):
+    def encrypt__(pub_key: (int, int, int), message: str, k=0, use_bytes=True) -> (int, int):
         """
         - This is a basic implementation of ElGamal encryption.
         - The integer 'm' that represents the message, must always be less than to 'p'
@@ -34,30 +34,38 @@ class ElGamal:
 
         :param pub_key: (p ,g ,h) tuple
         :param message: string
+        :param k: Optional [random number k such that 1 < k < p-1]
+        :param use_bytes: Set this to False, if the message is an integer.
         :return: (c1, c2) tuple
         """
         (p, g, h) = pub_key
 
-        k = random.randrange(2, p - 1)
+        if k == 0:
+            k = random.randrange(2, p - 1)
         c1 = pow(g, k, p)
 
-        m = int.from_bytes(message.encode('utf-8'), byteorder='big')
+        if use_bytes:
+            m = int.from_bytes(message.encode('utf-8'), byteorder='big')
+        else:
+            m = int(message)
 
         if not m < p:
             raise ValueError("m must must be less that p")
 
-        c2 = m * pow(h, k, p)
+        hk = pow(h, k, p)
+        c2 = pow(m * hk, 1, p)
         return c1, c2
 
     @staticmethod
-    def decrypt__(pub_key: (int, int, int), private_key: int, cipher: (int, int)) -> str:
+    def decrypt__(pub_key: (int, int, int), private_key: int, cipher: (int, int), use_bytes=True) -> str:
         """
         - This is a basic implementation of ElGamal decryption.
 
         :param pub_key: (p ,g ,h) tuple
         :param private_key:
         :param cipher: (c1, c2) tuple
-        :return:
+        :param use_bytes: Set this to False, if the message is an integer.
+        :return: string
         """
         p, _, _ = pub_key
         c1, c2 = cipher
@@ -65,11 +73,14 @@ class ElGamal:
         s = pow(c1, private_key, p)
         m = pow(c2 * mod_inverse(s, p), 1, p)
 
-        m = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big')
-        return m.decode('utf-8')
+        if use_bytes:
+            m = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big')
+            return m.decode('utf-8')
+        else:
+            return str(m)
 
     @staticmethod
-    def encrypt(pub_key: (int, int, int), block_size: int, message: str) -> (int, bytes):
+    def encrypt(pub_key: (int, int, int), block_size: int, message: str, k=0) -> (int, bytes):
         """
         - This is a more generic implementation that allows us to adjust the block size of the
         - encryption to align with the size of public key.
@@ -78,10 +89,12 @@ class ElGamal:
         :param pub_key: (p, g, h)
         :param block_size: size in bytes per block
         :param message: string
+        :param k:
         :return: (c1, c2)
         """
         (p, g, h) = pub_key
-        k = random.randrange(2, p - 1)
+        if k == 0:
+            k = random.randrange(2, p - 1)
         c1 = pow(g, k, p)
 
         min_n = 2 ** (block_size * 8)
