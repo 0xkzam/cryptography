@@ -34,9 +34,9 @@ class ElGamal:
 
         :param pub_key: (p ,g ,h) tuple
         :param message: string
-        :param k: Optional [random number k such that 1 < k < p-1]
-        :param use_bytes: Set this to False, if the message is an integer.
-        :return: (c1, c2) tuple
+        :param k: [if the random number k s.t. 1 < k < p-1 needs to be set explicitly for testing purposes]
+        :param use_bytes: Set this to False, if you want work with only integers without converting to bytes
+        :return: (c1, c2) cipher pair
         """
         (p, g, h) = pub_key
 
@@ -64,7 +64,7 @@ class ElGamal:
         :param pub_key: (p ,g ,h) tuple
         :param private_key:
         :param cipher: (c1, c2) tuple
-        :param use_bytes: Set this to False, if the message is an integer.
+        :param use_bytes: [Set this to False, if the message is an integer]
         :return: string
         """
         p, _, _ = pub_key
@@ -89,8 +89,8 @@ class ElGamal:
         :param pub_key: (p, g, h)
         :param block_size: size in bytes per block
         :param message: string
-        :param k:
-        :return: (c1, c2)
+        :param k: [if the random number k s.t. 1 < k < p-1 needs to be set explicitly for testing purposes]
+        :return: (c1, c2) cipher pair
         """
         (p, g, h) = pub_key
         if k == 0:
@@ -126,7 +126,7 @@ class ElGamal:
     @staticmethod
     def decrypt(pub_key: (int, int, int), private_key: int, block_size: int, cipher: (int, bytes)) -> str:
         """
-        Generic decryption function
+        - Generic decryption function
 
         :param pub_key: (p, g, h)
         :param private_key:

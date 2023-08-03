@@ -63,6 +63,16 @@ class TestRSA(TestCase):
         msg = RSA.decrypt__(n, d, c)
         self.assertEqual(message, msg)
 
+        # when message is an integer===================
+        # use_bytes = False
+        p, q = 7, 5
+        message = "17"
+        e = 5
+        n, d = RSA.gen_private_key(p, q, e)
+        c = RSA.encrypt__(n, e, message, False)
+        decrypted_message = RSA.decrypt__(n, d, c, False)
+        self.assertEqual(message, decrypted_message)
+
     def test_encrypt_decrypt(self):
         p, q = 45845791, 3731292319
         n, e = RSA.gen_public_key(p, q)

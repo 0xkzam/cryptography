@@ -1,4 +1,5 @@
 import random
+from sympy.ntheory.primetest import isprime
 from util.math import mod_inverse
 
 
@@ -11,12 +12,12 @@ class DSA:
 
         :param p: prime s.t. (p - 1) % q == 0
         :param q: prime
-        :param g:
+        :param g: generator
         :param private_key: secret key
         :return:
         """
         if not ((p - 1) % q) == 0:
-            raise ValueError("(p-1) must be divisable by q")
+            raise ValueError("(p-1) must be divisible by q")
 
         alpha = pow(g, int((p - 1) / q), p)
         beta = pow(alpha, private_key, p)
@@ -28,10 +29,10 @@ class DSA:
         """
         - Basic signature generation
 
-        :param public_key:
-        :param private_key:
+        :param public_key: (p, q, alpha, beta) tuple
+        :param private_key: secret key
         :param msg_hash: integer representation of the hashed message
-        :param k: if not set a random number will be set
+        :param k: [if the random number k s.t. 1 < k < p-1 needs to be set explicitly for testing purposes]
         :return:
         """
         p, q, alpha, beta = public_key
@@ -49,10 +50,10 @@ class DSA:
         """
         - Basic verification protocol
 
-        :param public_key:
-        :param signature:
+        :param public_key: p, q, alpha, beta) tuple
+        :param signature: (r, s) pair
         :param msg_hash: integer representation of the hashed message
-        :return:
+        :return: True/False
         """
         p, q, alpha, beta = public_key
         r, s = signature

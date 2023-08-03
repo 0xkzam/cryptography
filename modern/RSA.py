@@ -55,7 +55,7 @@ class RSA:
         return p * q, mod_inverse(e, phi)
 
     @staticmethod
-    def encrypt__(n: int, e: int, message: str) -> int:
+    def encrypt__(n: int, e: int, message: str, use_bytes=True) -> int:
         """
         - This is a basic implementation of RSA encryption.
         - The whole message is converted into an integer and encrypted.
@@ -65,16 +65,21 @@ class RSA:
         :param n: p*q
         :param e: public key (encryption exponent)
         :param message: string
+        :param use_bytes: Set this to False, if you want work with only integers without converting to bytes
         :return: integer that represents the original encryption
         """
-        m = int.from_bytes(message.encode('utf-8'), byteorder='big')
+        if use_bytes:
+            m = int.from_bytes(message.encode('utf-8'), byteorder='big')
+        else:
+            m = int(message)
+
         if m > n:
             raise ValueError("n is too small.")
         c = pow(m, e, n)
         return c
 
     @staticmethod
-    def decrypt__(n: int, d: int, cipher: int) -> str:
+    def decrypt__(n: int, d: int, cipher: int, use_bytes=True) -> str:
         """
         - This is a basic implementation of RSA decryption
         - Used to decrypt output from encrypt__() function
@@ -82,11 +87,16 @@ class RSA:
         :param n: p*q
         :param d: private key (decryption exponent)
         :param cipher: integer that represents the original encryption
+        :param use_bytes: Set this to False, if the message is an integer.
         :return: decrypted text
         """
         m = pow(cipher, d, n)
-        m = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big')
-        return m.decode('utf-8')
+
+        if use_bytes:
+            m = m.to_bytes((m.bit_length() + 7) // 8, byteorder='big')
+            return m.decode('utf-8')
+        else:
+            return str(m)
 
     @staticmethod
     def encrypt(n: int, e: int, block_size: int, message: str) -> bytes:
