@@ -16,6 +16,9 @@ class DSA:
         :param private_key: secret key
         :return:
         """
+        if not (isprime(p) and isprime(q)):
+            raise ValueError("p & q must be prime.")
+
         if not ((p - 1) % q) == 0:
             raise ValueError("(p-1) must be divisible by q")
 
