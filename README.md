@@ -29,7 +29,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - `m` = size of the alphabet (m = 26 for English letters)
 - <code>Encrypt(p<sub>1</sub>, p<sub>2</sub>… p<sub>m</sub>) = (p<sub>1</sub>+3, p<sub>2</sub>+3… p<sub>m</sub>+3) (mod m)</code>
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>m</sub>) = (c<sub>1</sub>-3, c<sub>2</sub>-3… c<sub>m</sub>-3) (mod m)</code>
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py).
+- Implementation: [Caesar.py](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py)
 
 <a id="item-2"></a>
 ### Vigenere Cipher
@@ -41,7 +41,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - `m` = size of the alphabet (m = 26 for English letters)
 - <code>Encrypt(p<sub>1</sub>, p<sub>2</sub>… p<sub>y</sub>) = (p<sub>1</sub>+k<sub>1</sub>, p<sub>2</sub>+k<sub>2</sub>… p<sub>m</sub>+k<sub>y</sub>) (mod m)</code>
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>y</sub>) = (c<sub>1</sub>-k<sub>1</sub>, c<sub>2</sub>-k<sub>2</sub>… c<sub>m</sub>-k<sub>y</sub>) (mod m)</code>
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py).
+- Implementation: [Vigenere.py](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py)
 
 <a id="item-3"></a>
 ### Affine Cipher
@@ -55,7 +55,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
     - For each character, compute `(ax+b) mod m` and convert the result back to a letter
 - <code>Decrypt(c) = a<sup>-1</sup>(c-b) mod m</code>
     - Find <code>a<sup>-1</sup> mod n</code> using Extended Euclidean Algorithm 
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/classical/Affine.py).
+- Implementation: [Affine.py](https://github.com/0xkzam/cryptography/blob/main/classical/Affine.py)
 
 <a id="item-b"></a>
 ## Modern Cryptography
@@ -88,7 +88,7 @@ large primes. In theory large scale quantum computing could potentially break RS
   - <code> m = c<sup>d</sup> (mod n)</code> 
   - Then convert `m` back to M
 
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py). _(WIP)_
+- Basic implementation: [RSA.py](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py)
 
 <a id="item-5"></a>
 ### Deffi-Hellman Key Exchange protocol
@@ -106,7 +106,7 @@ large primes. In theory large scale quantum computing could potentially break RS
     - A computes -> <code>k<sub>A</sub> = B<sup>a</sup> mod p</code>
     - B computes -> <code>k<sub>B</sub> = A<sup>b</sup> mod p</code>
     - Both <code>k<sub>A</sub> and k<sub>B</sub></code> should be equal.
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
+- Basic implementation: [DeffiHellman.py](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
 
 
 <a id="item-6"></a>
@@ -135,7 +135,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Decryption
   - Calculate <code>s = c<sub>1</sub><sup>x</sup> mod p</code> where `x` is the private key
   - Then calculate <code>m = (c<sub>2</sub> * s<sup>-1</sup>) mod p</code>
-- A basic implementation can be found [here](https://github.com/0xkzam/cryptography/blob/main/modern/ElGamal.py) _(WIP)_
+- Basic implementation: [ElGamal.py](https://github.com/0xkzam/cryptography/blob/main/modern/ElGamal.py)
 
 
 <a id="item-7"></a>
@@ -182,7 +182,7 @@ large primes. In theory large scale quantum computing could potentially break RS
     - <code>u2 = s<sup>-1</sup>r mod q</code>
     - <code>v = (⍺<sup>u1</sup>𝝱<sup>u2</sup> mod p) mod q</code>
 - Then the signature is verified if v = r
-- A basic implementation [here](https://github.com/0xkzam/cryptography/blob/main/modern/DSA.py) _(WIP)_
+- Basic implementation: [DSA.py](https://github.com/0xkzam/cryptography/blob/main/modern/DSA.py)
 
 
 <a id="item-9"></a>
@@ -200,4 +200,4 @@ The main principle behind SSS is the use of polynomial interpolation. We can fin
   - Calculate `f(x)` for `x = 1 , 2, …,n`
 
 - The `n` pairs are distributed among the `n` parties. Since the polynomial is of degree `k-1`, we only need `k` pairs to reconstruct the polynomial using interpolation and compute `D`. 
-- A basic implementation [here](https://github.com/0xkzam/cryptography/blob/main/modern/SSS.py) _(WIP)_
+- Basic implementation: [SSS.py](https://github.com/0xkzam/cryptography/blob/main/modern/SSS.py)
