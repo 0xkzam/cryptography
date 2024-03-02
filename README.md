@@ -1,28 +1,66 @@
 ## Cryptography Basics
-This repo is created solely for the purpose of learning. The code is mostly implemented from scratch for the purpose 
-of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards.
+This repo is created solely for the purpose of studying basic cryptography. The code is mostly implemented from scratch for the purpose of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards. If you spot anything off or incorrect in this repo, I'd really appreciate if you could open an issue or drop me a message.
 
-#### Contents
-  - [Classical](#item-a)
-    - [Caesar Cipher](#item-1)
-    - [Vigenere Cipher](#item-2)
-    - [Affine Cipher](#item-3)
-  - [Modern](#item-b)
-    - [RSA](#item-4)
-    - [Deffi-Hellman Key Exchange](#item-5)
-    - [ElGamal](#item-6)
-    - [SHA256](#item-7)
-    - [DSA](#item-8)
-    - [Shamir's Secret Sharing](#item-9)
+## Contents
+- [Cryptography Basics](#cryptography-basics)
+- [Contents](#contents)
+- [Fundamental Math Problems used in Cryptography](#fundamental-math-problems-used-in-cryptography)
+  - [Prime numbers](#prime-numbers)
+  - [Integer Factoring Problem](#integer-factoring-problem)
+  - [Discrete Logarithm Problem (DLP)](#discrete-logarithm-problem-dlp)
+- [Classical Cryptography](#classical-cryptography)
+  - [Caesar Cipher](#caesar-cipher)
+  - [Vigenere Cipher](#vigenere-cipher)
+  - [Affine Cipher](#affine-cipher)
+- [Modern Cryptography](#modern-cryptography)
+  - [RSA](#rsa)
+  - [Deffi-Hellman Key Exchange protocol](#deffi-hellman-key-exchange-protocol)
+  - [ElGamal](#elgamal)
+  - [SHA256](#sha256)
+  - [DSA](#dsa)
+  - [Shamir's Secret Sharing](#shamirs-secret-sharing)
+
+
+## Fundamental Math Problems used in Cryptography
 
 ### Prime numbers
+- **Fundamental theorem of arithmetic** states that every integer greater than 1 is either a prime number itself or it can be factorized into prime numbers.
+- Tests for primality
+  - Deterministic tests: AKS Primality Test, Elliptic Curve Primality Proving (ECPP), Miller-Rabin Test-Deterministic, etc.
+  - Probabalistic tests: Miller-Rabin Test-Probabilistic, Fermat Primality Test, etc
+- Deterministic tests consume more computational power as the numbers get large, this is why probabilic tests are used to mitigate this issue. However in practical applications, both deterministic and probabilistic tests are used in conjunction. Typically, multiple rounds of probabilistic tests are done initially to filter out composite numbers and the final verification (in critical applications) is done with a deterministic test.
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
-  - Reference [[link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)]
+  - Reference: [link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)
 
-<a id="item-a"></a>
+### Integer Factoring Problem
+- This is a fundamental problem in Number theory.
+- The problem is, given the product of 2 or more prime numbers, find its prime factors.
+- The problem is defined as follows:
+  - Given a composite number N, find two prime numbers p, q such that N = p * q
+- While factorization for small values of N can be done relatively easily, as the numbers p and q get larger, no efficient non-quantum integer factorization algorithm exists to solve this. If the primes are large enough, it is considered computationally infeasible to solve with the current technology.
+- Integer Factoring is the basis for [RSA](#rsa), which is the first public key cryptography based system.  
+  - Private key consists of prime factors p and q. (along with a decryption exponent e)
+  - Public key consists of N which is the product of p and q. (along with an encryption exponent d)
+
+### Discrete Logarithm Problem (DLP)
+- This is also an important fundamental problem in Number Theory which has significat implications in cryptography.
+- Definitions:
+  - **p** = a large prime number
+  - **G** = finite cyclic group (multiplicative group)
+  - **g** = generator for G and a primitive root prime **p**
+    - A primitive root of a prime number **p** is a number **g** in the range **1 ≤ g < p** such that the set of numbers of **g<sup>k</sup> (mod p)** as k ranges from 1 to  p-1, must exactly be the set of numbers from 1 to p-1 .
+    - E.g., g =2 and p =13
+      - 2<sup>k</sup> (mod 13) = {2, 4, 8, 3, 6, 12, 11, 9, 5, 10, 7, 1} for k = 1, 2,…,12   
+      - In this case, 2<sup>k</sup> (mod 13) generates all the integers from 1 to 12, hence g=2 is a primitive root of p=13
+- The problem is defined as follows:
+    - Find an integer **x** such that **g<sup>x</sup> ≡ h (mod p)** given **g**, **h** and **p** where **p** is a large prime and **g** is a primitive root of **p** (i.e. 1 <= g < p)
+- DLP is the basis for [Deffi-Hellman Key Exchange](#deffi-hellman-key-exchange-protocol) and [ElGamal](#elgamal). 
+
+
+
 ## Classical Cryptography
 
-<a id="item-1"></a>
+
 ### Caesar Cipher
 - The standard Caesar Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Each character in the plain text is shifted by a constant (Standard shift = 3).
@@ -31,7 +69,7 @@ of understanding the fundamentals of cryptographic primitives and does not follo
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>m</sub>) = (c<sub>1</sub>-3, c<sub>2</sub>-3… c<sub>m</sub>-3) (mod m)</code>
 - Implementation: [Caesar.py](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py)
 
-<a id="item-2"></a>
+
 ### Vigenere Cipher
 - The standard Vigenere Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Uses a series of different Caesar Ciphers according to the key.
@@ -57,10 +95,10 @@ of understanding the fundamentals of cryptographic primitives and does not follo
     - Find <code>a<sup>-1</sup> mod n</code> using Extended Euclidean Algorithm 
 - Implementation: [Affine.py](https://github.com/0xkzam/cryptography/blob/main/classical/Affine.py)
 
-<a id="item-b"></a>
+
 ## Modern Cryptography
 
-<a id="item-4"></a>
+
 ### RSA
 
 - RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
@@ -90,7 +128,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 - Basic implementation: [RSA.py](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py)
 
-<a id="item-5"></a>
+
 ### Deffi-Hellman Key Exchange protocol
 
 - This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
@@ -109,7 +147,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Basic implementation: [DeffiHellman.py](https://github.com/0xkzam/cryptography/blob/main/modern/DeffiHellman.py) 
 
 
-<a id="item-6"></a>
+
 ### ElGamal
 
 - Taher Elgamal, 1985	
@@ -138,7 +176,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Basic implementation: [ElGamal.py](https://github.com/0xkzam/cryptography/blob/main/modern/ElGamal.py)
 
 
-<a id="item-7"></a>
+
 ### SHA256
 - Follows the Merkel-Damgard paradigm, which is used in the MD5, SHA-1 and SHA-2 family.
 - Takes an arbitrary length input, breaks it up into blocks of 512 bits, processes each block, and finally outputs a 256 bit value.
@@ -155,7 +193,7 @@ large primes. In theory large scale quantum computing could potentially break RS
     - for each M<sub>k</sub> → H<sub>k</sub> = compress(H<sub>k-1</sub>, M<sub>k</sub>)
 
 
-<a id="item-8"></a>
+
 ### DSA
 - Standard DSA is based on ElGamal.
 
@@ -185,7 +223,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Basic implementation: [DSA.py](https://github.com/0xkzam/cryptography/blob/main/modern/DSA.py)
 
 
-<a id="item-9"></a>
+
 ### Shamir's Secret Sharing 
 Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
 The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree `k-1` where `k` is the minimum number of pieces required to reconstruct the secret and `n` is the total number of pieces the secret is split into.
