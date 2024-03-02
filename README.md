@@ -1,8 +1,8 @@
-## Cryptography Basics
+## Cryptographic Systems Security Basics
 This repo is created solely for the purpose of studying basic cryptography. The code is mostly implemented from scratch for the purpose of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards. If you spot anything off or incorrect in this repo, I'd really appreciate if you could open an issue or drop me a message.
 
 ## Contents
-- [Cryptography Basics](#cryptography-basics)
+- [Cryptographic Systems Security Basics](#cryptographic-systems-security-basics)
 - [Contents](#contents)
 - [Fundamental Math used in Cryptography](#fundamental-math-used-in-cryptography)
   - [Modular Arithmatic](#modular-arithmatic)
