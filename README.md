@@ -4,7 +4,9 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 ## Contents
 - [Cryptography Basics](#cryptography-basics)
 - [Contents](#contents)
-- [Fundamental Math Problems used in Cryptography](#fundamental-math-problems-used-in-cryptography)
+- [Fundamental Math used in Cryptography](#fundamental-math-used-in-cryptography)
+  - [Modular Arithmatic](#modular-arithmatic)
+  - [Euclidean/Extended Euclidean Algorithm \& Modular Inverse](#euclideanextended-euclidean-algorithm--modular-inverse)
   - [Prime numbers](#prime-numbers)
   - [Integer Factoring Problem](#integer-factoring-problem)
   - [Discrete Logarithm Problem (DLP)](#discrete-logarithm-problem-dlp)
@@ -21,7 +23,38 @@ This repo is created solely for the purpose of studying basic cryptography. The 
   - [Shamir's Secret Sharing](#shamirs-secret-sharing)
 
 
-## Fundamental Math Problems used in Cryptography
+## Fundamental Math used in Cryptography
+
+
+### Modular Arithmatic
+- a, b and n are positive integers. If the remainders of a and b when divided by n are equal, then the integers a and b are congruent. It’s denoted as follows,
+  - a ≡ b (mod n)
+- Properties
+  - Addition
+    - If a ≡ b (mod n) and c ≡ d (mod n), then **a + c ≡ b + d (mod n)**	
+    - If a ≡ b (mod n), then **a + k ≡ b + k (mod n)** for any integer k
+    - If a + b = c, then **a (mod n) + b (mod n) ≡ c (mod n)**
+  - Multiplication 
+    - If a.b = c, then **a (mod n) . b (mod n) ≡ c (mod n)**
+    - If a ≡ b (mod n), then **ka  ≡ kb (mod n)** any integer k
+    - If a ≡ b (mod n) and c ≡ d (mod n), then **a * c ≡ b * d (mod n)**
+  - Exponentiation
+    - If a ≡ b (mod n), then **a<sup>k</sup> ≡ b<sup>k</sup> (mod n)** for any positive integer k
+
+
+### Euclidean/Extended Euclidean Algorithm & Modular Inverse
+- Euclidean algorithm is used to find the greated common divisor of two numbers a and b, typically denoted by **gcd(a, b)** 
+  - Basic impl: [gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L5)
+- Extended Euclidean algorithm is used find the **gcd(a, b)** and two integers **x** and **y** such that **ax + by = gcd(a, b)**
+  - Basic impl: [extended_gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L43)
+- Modular Inverse
+  - Extended Euclidean algorithm is used to find modular inverse.
+  - Mod inverse of **a** is defined as an integer **x** such that **x ≡ a<sup>-1</sup> (mod n)**
+    - For x to exist, **a** and **n** must be coprime i.e., **gcd(a, n) = 1**
+    - Using Ext. Euclidean we can write **ax + ny = gcd(a, n)** and compute x, y when gcd(a,n) = 1 where x is the mod inverse of a.
+  - Mod inverse is used in [RSA](#rsa) to calculate private key exponent.
+  - Basic impl: [mod_inverse](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L87)
+
 
 ### Prime numbers
 - **Fundamental theorem of arithmetic** states that every integer greater than 1 is either a prime number itself or it can be factorized into prime numbers.
@@ -29,7 +62,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
   - Deterministic tests: AKS Primality Test, Elliptic Curve Primality Proving (ECPP), Miller-Rabin Test-Deterministic, etc.
   - Probabalistic tests: Miller-Rabin Test-Probabilistic, Fermat Primality Test, etc
 - Deterministic tests consume more computational power as the numbers get large, this is why probabilic tests are used to mitigate this issue. However in practical applications, both deterministic and probabilistic tests are used in conjunction. Typically, multiple rounds of probabilistic tests are done initially to filter out composite numbers and the final verification (in critical applications) is done with a deterministic test.
-- The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/main/util/math.py).
+- The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L144).
   - Reference: [link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)
 
 ### Integer Factoring Problem
