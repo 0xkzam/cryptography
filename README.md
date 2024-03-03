@@ -5,28 +5,40 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 - [Cryptographic Systems Security Basics](#cryptographic-systems-security-basics)
 - [Contents](#contents)
 - [Fundamental Math used in Cryptography](#fundamental-math-used-in-cryptography)
-  - [Modular Arithmatic](#modular-arithmatic)
-  - [Euclidean/Extended Euclidean Algorithm \& Modular Inverse](#euclideanextended-euclidean-algorithm--modular-inverse)
-  - [Prime numbers](#prime-numbers)
-  - [Integer Factoring Problem](#integer-factoring-problem)
-  - [Discrete Logarithm Problem (DLP)](#discrete-logarithm-problem-dlp)
+  - [1. Prime numbers](#1-prime-numbers)
+  - [2. Modular Arithmetic](#2-modular-arithmetic)
+  - [3. Euclidean/Extended Euclidean Algorithm](#3-euclideanextended-euclidean-algorithm)
+  - [4. Modular Inverse (aka Multiplicative inverse)](#4-modular-inverse-aka-multiplicative-inverse)
+  - [5. Integer Factoring Problem](#5-integer-factoring-problem)
+  - [6. Discrete Logarithm Problem (DLP)](#6-discrete-logarithm-problem-dlp)
 - [Classical Cryptography](#classical-cryptography)
-  - [Caesar Cipher](#caesar-cipher)
-  - [Vigenere Cipher](#vigenere-cipher)
-  - [Affine Cipher](#affine-cipher)
+  - [1. Caesar Cipher](#1-caesar-cipher)
+  - [2. Vigenere Cipher](#2-vigenere-cipher)
+  - [3. Affine Cipher](#3-affine-cipher)
 - [Modern Cryptography](#modern-cryptography)
-  - [RSA](#rsa)
-  - [Deffi-Hellman Key Exchange protocol](#deffi-hellman-key-exchange-protocol)
-  - [ElGamal](#elgamal)
-  - [SHA256](#sha256)
-  - [DSA](#dsa)
-  - [Shamir's Secret Sharing](#shamirs-secret-sharing)
+  - [1. RSA](#1-rsa)
+  - [2. Deffi-Hellman Key Exchange protocol](#2-deffi-hellman-key-exchange-protocol)
+  - [3. ElGamal](#3-elgamal)
+  - [4. SHA256](#4-sha256)
+  - [5. DSA](#5-dsa)
+  - [6. Shamir's Secret Sharing](#6-shamirs-secret-sharing)
 
 
 ## Fundamental Math used in Cryptography
 
 
-### Modular Arithmatic
+### 1. Prime numbers
+- **Fundamental theorem of arithmetic** states that every integer greater than 1 is either a prime number itself or it can be factorized into prime numbers.
+- Tests for primality
+  - Deterministic tests: AKS Primality Test, Elliptic Curve Primality Proving (ECPP), Miller-Rabin Test-Deterministic, etc.
+  - Probabalistic tests: Miller-Rabin Test-Probabilistic, Fermat Primality Test, etc
+- Deterministic tests consume more computational power as the numbers get large, this is why probabilic tests are used to mitigate this issue. However in practical applications, both deterministic and probabilistic tests are used in conjunction. Typically, multiple rounds of probabilistic tests are done initially to filter out composite numbers and the final verification (in critical applications) is done with a deterministic test.
+- The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L144).
+  - Reference: [link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)
+
+
+
+### 2. Modular Arithmetic
 - a, b and n are positive integers. If the remainders of a and b when divided by n are equal, then the integers a and b are congruent. It’s denoted as follows,
   - a ≡ b (mod n)
 - Properties
@@ -42,30 +54,26 @@ This repo is created solely for the purpose of studying basic cryptography. The 
     - If a ≡ b (mod n), then **a<sup>k</sup> ≡ b<sup>k</sup> (mod n)** for any positive integer k
 
 
-### Euclidean/Extended Euclidean Algorithm & Modular Inverse
-- Euclidean algorithm is used to find the greated common divisor of two numbers a and b, typically denoted by **gcd(a, b)** 
+### 3. Euclidean/Extended Euclidean Algorithm 
+- Euclidean algorithm is used to find the greatest common divisor of two integers **a** and **b**, typically denoted by **gcd(a,b)** 
   - Basic impl: [gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L5)
-- Extended Euclidean algorithm is used find the **gcd(a, b)** and two integers **x** and **y** such that **ax + by = gcd(a, b)**
+- Extended Euclidean algorithm is used find the **gcd(a, b)** and two integers **x** and **y** such that **ax + by = gcd(a,b)**
   - Basic impl: [extended_gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L43)
-- Modular Inverse
-  - Extended Euclidean algorithm is used to find modular inverse.
+
+
+### 4. Modular Inverse (aka Multiplicative inverse)
+  - Extended Euclidean algorithm is commonly used to find modular inverse.
   - Mod inverse of **a** is defined as an integer **x** such that **x ≡ a<sup>-1</sup> (mod n)**
     - For x to exist, **a** and **n** must be coprime i.e., **gcd(a, n) = 1**
     - Using Ext. Euclidean we can write **ax + ny = gcd(a, n)** and compute x, y when gcd(a,n) = 1 where x is the mod inverse of a.
   - Mod inverse is used in [RSA](#rsa) to calculate private key exponent.
   - Basic impl: [mod_inverse](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L87)
+  - Note: **Fermat's Little Theorem** can also be used to find mod inverse. The only catch is that, to use this theorem the **p** in **x ≡ a<sup>-1</sup> (mod p)** is required to be a prime.
+    - The theorem: if **p** is a prime number and **a** is not divisible by **p**, then **x ≡ a<sup>−1</sup> ≡ a<sup>p−2</sup> (mod p)**
 
 
-### Prime numbers
-- **Fundamental theorem of arithmetic** states that every integer greater than 1 is either a prime number itself or it can be factorized into prime numbers.
-- Tests for primality
-  - Deterministic tests: AKS Primality Test, Elliptic Curve Primality Proving (ECPP), Miller-Rabin Test-Deterministic, etc.
-  - Probabalistic tests: Miller-Rabin Test-Probabilistic, Fermat Primality Test, etc
-- Deterministic tests consume more computational power as the numbers get large, this is why probabilic tests are used to mitigate this issue. However in practical applications, both deterministic and probabilistic tests are used in conjunction. Typically, multiple rounds of probabilistic tests are done initially to filter out composite numbers and the final verification (in critical applications) is done with a deterministic test.
-- The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L144).
-  - Reference: [link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)
 
-### Integer Factoring Problem
+### 5. Integer Factoring Problem
 - This is a fundamental problem in Number theory.
 - The problem is, given the product of 2 or more prime numbers, find its prime factors.
 - The problem is defined as follows:
@@ -75,7 +83,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
   - Private key consists of prime factors p and q. (along with a decryption exponent e)
   - Public key consists of N which is the product of p and q. (along with an encryption exponent d)
 
-### Discrete Logarithm Problem (DLP)
+### 6. Discrete Logarithm Problem (DLP)
 - This is also an important fundamental problem in Number Theory which has significat implications in cryptography.
 - Definitions:
   - **p** = a large prime number
@@ -94,7 +102,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 ## Classical Cryptography
 
 
-### Caesar Cipher
+### 1. Caesar Cipher
 - The standard Caesar Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Each character in the plain text is shifted by a constant (Standard shift = 3).
 - `m` = size of the alphabet (m = 26 for English letters)
@@ -103,7 +111,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 - Implementation: [Caesar.py](https://github.com/0xkzam/cryptography/blob/main/classical/Caesar.py)
 
 
-### Vigenere Cipher
+### 2. Vigenere Cipher
 - The standard Vigenere Cipher is only used to encrypt alpha characters and other characters are ignored.
 - Uses a series of different Caesar Ciphers according to the key.
 - Has a key K = (k<sub>1</sub>, k<sub>2</sub>... k<sub>y</sub>) that contains only alpha characters.
@@ -114,8 +122,8 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 - <code>Decrypt(c<sub>1</sub>, c<sub>2</sub>… c<sub>y</sub>) = (c<sub>1</sub>-k<sub>1</sub>, c<sub>2</sub>-k<sub>2</sub>… c<sub>m</sub>-k<sub>y</sub>) (mod m)</code>
 - Implementation: [Vigenere.py](https://github.com/0xkzam/cryptography/blob/main/classical/Vigenere.py)
 
-<a id="item-3"></a>
-### Affine Cipher
+
+### 3. Affine Cipher
 - `m` = size of the alphabet (m = 26 for English letters)
 - Key = (a,b) 
     - Choose `a` such that `m` and `a` are coprime (ie. greatest common divisor = 1)
@@ -132,7 +140,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 ## Modern Cryptography
 
 
-### RSA
+### 1. RSA
 
 - RSA (Ron Rivest, Adi Shamir, Leonard Adleman. 1978) is based on the Integer Factoring Problem using the product of 2 
 large primes. In theory large scale quantum computing could potentially break RSA encryption using Shor’s algorithm.
@@ -162,7 +170,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 - Basic implementation: [RSA.py](https://github.com/0xkzam/cryptography/blob/main/modern/RSA.py)
 
 
-### Deffi-Hellman Key Exchange protocol
+### 2. Deffi-Hellman Key Exchange protocol
 
 - This protocol is a way of sharing a common secret key among 2 parties typically over an insecure channel.
 - Key Generation
@@ -181,7 +189,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 
-### ElGamal
+### 3. ElGamal
 
 - Taher Elgamal, 1985	
 - Based on Diffie-Hellman key exchange (Discrete Logarithm Problem).
@@ -210,7 +218,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 
-### SHA256
+### 4. SHA256
 - Follows the Merkel-Damgard paradigm, which is used in the MD5, SHA-1 and SHA-2 family.
 - Takes an arbitrary length input, breaks it up into blocks of 512 bits, processes each block, and finally outputs a 256 bit value.
 
@@ -227,7 +235,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 
-### DSA
+### 5. DSA
 - Standard DSA is based on ElGamal.
 
 - Key Generation
@@ -257,7 +265,7 @@ large primes. In theory large scale quantum computing could potentially break RS
 
 
 
-### Shamir's Secret Sharing 
+### 6. Shamir's Secret Sharing 
 Sharmir's Secret Sharing (SSS) is a method of splitting a secret into multiple pieces such that the secret can only be reconstructed when a sufficient number of pieces are combined. 
 The main principle behind SSS is the use of polynomial interpolation. We can find a polynomial with a degree `k-1` where `k` is the minimum number of pieces required to reconstruct the secret and `n` is the total number of pieces the secret is split into.
 
