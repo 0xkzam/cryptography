@@ -243,7 +243,7 @@ large primes. In theory large scale quantum computing could potentially break RS
     - A large prime `q`
     - A prime `p` such that (p-1) is divisible by q (i.e. p = kq + 1 for some integer k)
     - A primitive root `g` (mod p)
-  - The secret (i.e. private key), `z` such that 1 < z < q
+    - The secret (i.e. private key), `z` such that 1 < z < q
   - Calculate <code>⍺ = g<sup>(p-1)/q</sup> (mod p)</code>
   - Calculate <code>𝝱 = ⍺<sup>z</sup> (mod p)</code>
   - Thus, the public key = (p, q, ⍺, 𝝱)
