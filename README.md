@@ -22,8 +22,7 @@ This repo is created solely for the purpose of studying basic cryptography. The 
   - [4. SHA256](#4-sha256)
   - [5. DSA](#5-dsa)
   - [6. Shamir's Secret Sharing](#6-shamirs-secret-sharing)
-
-
+  - [7. Homomorphic Encryption](#7-homomorphic-encryption)
 ## Fundamental Math used in Cryptography
 
 
@@ -280,3 +279,18 @@ The main principle behind SSS is the use of polynomial interpolation. We can fin
 
 - The `n` pairs are distributed among the `n` parties. Since the polynomial is of degree `k-1`, we only need `k` pairs to reconstruct the polynomial using interpolation and compute `D`. 
 - Basic implementation: [SSS.py](https://github.com/0xkzam/cryptography/blob/main/modern/SSS.py)
+
+### 7. Homomorphic Encryption
+- Homomorphic encryption allows operations to be performed on the encrypted data without the
+need for decryption. When the encrypted data is eventually decrypted, the result of these
+operations is identical to the result if the same operations were performed on the original data.
+- There are three main HE schemes based on the mathematical operations they support and the number of times they can be performed.
+
+  | | |  |
+  |---|---|---|
+  | Partially HE | only addition or only multiplication | infinite number of times
+  | Somewhat HE | both addition and multiplication | limited number of times
+  | Fully HE | both addition and multiplication | infinite number of times
+  ||||
+
+- see [Confidential ERC-20 Tokens Using HE](https://www.zama.ai/post/confidential-erc-20-tokens-using-homomorphic-encryption)
