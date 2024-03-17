@@ -2,27 +2,25 @@
 This repo is created solely for the purpose of studying basic cryptography. The code is mostly implemented from scratch for the purpose of understanding the fundamentals of cryptographic primitives and does not follow any official cryptographic standards. If you spot anything off or incorrect in this repo, I'd really appreciate if you could open an issue or drop me a message.
 
 ## Contents
-- [Cryptographic Systems Security Basics](#cryptographic-systems-security-basics)
-- [Contents](#contents)
 - [Fundamental Math used in Cryptography](#fundamental-math-used-in-cryptography)
-  - [1. Prime numbers](#1-prime-numbers)
-  - [2. Modular Arithmetic](#2-modular-arithmetic)
-  - [3. Euclidean/Extended Euclidean Algorithm](#3-euclideanextended-euclidean-algorithm)
-  - [4. Modular Inverse (aka Multiplicative inverse)](#4-modular-inverse-aka-multiplicative-inverse)
-  - [5. Integer Factoring Problem](#5-integer-factoring-problem)
-  - [6. Discrete Logarithm Problem (DLP)](#6-discrete-logarithm-problem-dlp)
+  - [Prime numbers](#1-prime-numbers)
+  - [Modular Arithmetic](#2-modular-arithmetic)
+  - [Euclidean/Extended Euclidean Algorithm](#3-euclideanextended-euclidean-algorithm)
+  - [Modular Inverse (aka Multiplicative inverse)](#4-modular-inverse-aka-multiplicative-inverse)
+  - [Integer Factoring Problem](#5-integer-factoring-problem)
+  - [Discrete Logarithm Problem (DLP)](#6-discrete-logarithm-problem-dlp)
 - [Classical Cryptography](#classical-cryptography)
-  - [1. Caesar Cipher](#1-caesar-cipher)
-  - [2. Vigenere Cipher](#2-vigenere-cipher)
-  - [3. Affine Cipher](#3-affine-cipher)
+  - [Caesar Cipher](#1-caesar-cipher)
+  - [Vigenere Cipher](#2-vigenere-cipher)
+  - [Affine Cipher](#3-affine-cipher)
 - [Modern Cryptography](#modern-cryptography)
-  - [1. RSA](#1-rsa)
-  - [2. Deffi-Hellman Key Exchange protocol](#2-deffi-hellman-key-exchange-protocol)
-  - [3. ElGamal](#3-elgamal)
-  - [4. SHA256](#4-sha256)
-  - [5. DSA](#5-dsa)
-  - [6. Shamir's Secret Sharing](#6-shamirs-secret-sharing)
-  - [7. Homomorphic Encryption](#7-homomorphic-encryption)
+  - [RSA](#1-rsa)
+  - [Deffi-Hellman Key Exchange protocol](#2-deffi-hellman-key-exchange-protocol)
+  - [ElGamal](#3-elgamal)
+  - [SHA256](#4-sha256)
+  - [DSA](#5-dsa)
+  - [Shamir's Secret Sharing](#6-shamirs-secret-sharing)
+  - [Homomorphic Encryption](#7-homomorphic-encryption)
 ## Fundamental Math used in Cryptography
 
 
@@ -38,37 +36,37 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 
 
 ### 2. Modular Arithmetic
-- a, b and n are positive integers. If the remainders of a and b when divided by n are equal, then the integers a and b are congruent. It’s denoted as follows,
-  - a ≡ b (mod n)
+- $a, b$ and $n$ are positive integers. If the remainders of $a$ and $b$ when divided by $n$ are equal, then the integers $a$ and $b$ are congruent. It’s denoted as follows,
+  - $a ≡ b \pmod{n}$
 - Properties
   - Addition
-    - If a ≡ b (mod n) and c ≡ d (mod n), then **a + c ≡ b + d (mod n)**	
-    - If a ≡ b (mod n), then **a + k ≡ b + k (mod n)** for any integer k
-    - If a + b = c, then **a (mod n) + b (mod n) ≡ c (mod n)**
+    - If $a ≡ b \pmod{n}$ and $c ≡ d \pmod{n}$, then $a + c ≡ b + d \pmod{n}$	
+    - If $a ≡ b \pmod{n}$, then $a + k ≡ b + k \pmod{n}$ for any integer $k$
+    - If $a + b = c$, then $a \pmod{n} + b \pmod{n} ≡ c \pmod{n}$
   - Multiplication 
-    - If a.b = c, then **a (mod n) . b (mod n) ≡ c (mod n)**
-    - If a ≡ b (mod n), then **ka  ≡ kb (mod n)** any integer k
-    - If a ≡ b (mod n) and c ≡ d (mod n), then **a * c ≡ b * d (mod n)**
+    - If $a.b = c$, then $a \pmod{n} . b \pmod{n} ≡ c \pmod{n}$
+    - If $a ≡ b \pmod{n}$, then $ka  ≡ kb \pmod{n}$ any integer $k$
+    - If $a ≡ b \pmod{n}$ and $c ≡ d \pmod{n}$, then $a * c ≡ b * d \pmod{n}$
   - Exponentiation
-    - If a ≡ b (mod n), then **a<sup>k</sup> ≡ b<sup>k</sup> (mod n)** for any positive integer k
+    - If $a ≡ b \pmod{n}$, then $a^k ≡ b^k \pmod{n}$ for any positive integer $k$
 
 
 ### 3. Euclidean/Extended Euclidean Algorithm 
-- Euclidean algorithm is used to find the greatest common divisor of two integers **a** and **b**, typically denoted by **gcd(a,b)** 
+- Euclidean algorithm is used to find the greatest common divisor of two integers $a$ and $b$, typically denoted by $gcd(a,b)$ 
   - Basic impl: [gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L5)
-- Extended Euclidean algorithm is used find the **gcd(a, b)** and two integers **x** and **y** such that **ax + by = gcd(a,b)**
+- Extended Euclidean algorithm is used find the $gcd(a, b)$ and two integers $x$ and $y$ such that $ax + by = gcd(a,b)$
   - Basic impl: [extended_gcd](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L43)
 
 
 ### 4. Modular Inverse (aka Multiplicative inverse)
   - Extended Euclidean algorithm is commonly used to find modular inverse.
-  - Mod inverse of **a** is defined as an integer **x** such that **x ≡ a<sup>-1</sup> (mod n)**
-    - For x to exist, **a** and **n** must be coprime i.e., **gcd(a, n) = 1**
-    - Using Ext. Euclidean we can write **ax + ny = gcd(a, n)** and compute x, y when gcd(a,n) = 1 where x is the mod inverse of a.
-  - Mod inverse is used in [RSA](#rsa) to calculate private key exponent.
+  - Mod inverse of $a$ is defined as an integer $x$ such that $x ≡ a^{-1} \pmod{n}$
+    - For $x$ to exist, $a$ and $n$ must be coprime i.e., $gcd(a, n) = 1$
+    - Using Ext. Euclidean we can write $ax + ny = gcd(a, n)$ and compute $x, y$ when $gcd(a,n) = 1$ where $x$ is the mod inverse of $a$.
+  - Mod inverse is used in [RSA](#1-rsa) to calculate private key exponent.
   - Basic impl: [mod_inverse](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L87)
-  - Note: **Fermat's Little Theorem** can also be used to find mod inverse. The only catch is that, to use this theorem the **p** in **x ≡ a<sup>-1</sup> (mod p)** is required to be a prime.
-    - The theorem: if **p** is a prime number and **a** is not divisible by **p**, then **x ≡ a<sup>−1</sup> ≡ a<sup>p−2</sup> (mod p)**
+  - Note: **Fermat's Little Theorem** can also be used to find mod inverse. The only catch is that, to use this theorem the $p$ in $x ≡ a^{-1} \pmod{p}$ is required to be a prime.
+    - The theorem: if $p$ is a prime number and $a$ is not divisible by $p$, then $x ≡ a^{−1} ≡ a^{p−2} \pmod{p}$
 
 
 
@@ -76,25 +74,25 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 - This is a fundamental problem in Number theory.
 - The problem is, given the product of 2 or more prime numbers, find its prime factors.
 - The problem is defined as follows:
-  - Given a composite number N, find two prime numbers p, q such that N = p * q
-- While factorization for small values of N can be done relatively easily, as the numbers p and q get larger, no efficient non-quantum integer factorization algorithm exists to solve this. If the primes are large enough, it is considered computationally infeasible to solve with the current technology.
-- Integer Factoring is the basis for [RSA](#rsa), which is the first public key cryptography based system.  
-  - Private key consists of prime factors p and q. (along with a decryption exponent e)
-  - Public key consists of N which is the product of p and q. (along with an encryption exponent d)
+  - Given a composite number $N$, find two prime numbers $p, q$ such that $N = p * q$
+- While factorization for small values of $N$ can be done relatively easily, as the numbers $p$ and $q$ get larger, no efficient non-quantum integer factorization algorithm exists to solve this. If the primes are large enough, it is considered computationally infeasible to solve with the current technology.
+- Integer Factoring is the basis for [RSA](#1-rsa), which is the first public key cryptography based system.  
+  - Private key consists of prime factors $p$ and $q$. (along with a decryption exponent $e$)
+  - Public key consists of $N$ which is the product of $p$ and $q$. (along with an encryption exponent $d$)
 
 ### 6. Discrete Logarithm Problem (DLP)
 - This is also an important fundamental problem in Number Theory which has significat implications in cryptography.
 - Definitions:
-  - **p** = a large prime number
-  - **G** = finite cyclic group (multiplicative group)
-  - **g** = generator for G and a primitive root prime **p**
-    - A primitive root of a prime number **p** is a number **g** in the range **1 ≤ g < p** such that the set of numbers of **g<sup>k</sup> (mod p)** as k ranges from 1 to  p-1, must exactly be the set of numbers from 1 to p-1 .
-    - E.g., g =2 and p =13
-      - 2<sup>k</sup> (mod 13) = {2, 4, 8, 3, 6, 12, 11, 9, 5, 10, 7, 1} for k = 1, 2,…,12   
-      - In this case, 2<sup>k</sup> (mod 13) generates all the integers from 1 to 12, hence g=2 is a primitive root of p=13
+  - $p$: a large prime number
+  - $G$: finite cyclic group (multiplicative group)
+  - $g$: generator for $G$ and a primitive root prime $p$
+    - A primitive root of a prime number $p$ is a number $g$ in the range $1 ≤ g < p$ such that the set of numbers of $g^k (mod p)$ as $k$ ranges from 1 to  p-1, must exactly be the set of numbers from 1 to p-1 .
+    - E.g., $g =2$ and $p =13$
+      - $2^k \pmod{13} = \\{2, 4, 8, 3, 6, 12, 11, 9, 5, 10, 7, 1\\}$ for $k = 1, 2,…,12$   
+      - In this case, $2^k \pmod{13}$ generates all the integers from 1 to 12, hence $g=2$ is a primitive root of $p=13$
 - The problem is defined as follows:
-    - Find an integer **x** such that **g<sup>x</sup> ≡ h (mod p)** given **g**, **h** and **p** where **p** is a large prime and **g** is a primitive root of **p** (i.e. 1 <= g < p)
-- DLP is the basis for [Deffi-Hellman Key Exchange](#deffi-hellman-key-exchange-protocol) and [ElGamal](#elgamal). 
+    - Find an integer $x$ such that $g^x ≡ h \pmod{p}$ given $g, h$ and $p$ where $p$ is a large prime and $g$ is a primitive root of $p$ (i.e. $1 <= g < p$)
+- DLP is the basis for [Deffi-Hellman Key Exchange](#2-deffi-hellman-key-exchange-protocol) and [ElGamal](#3-elgamal). 
 
 
 
