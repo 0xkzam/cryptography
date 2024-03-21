@@ -3,28 +3,32 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 
 ## Contents
 - [Fundamental Math used in Cryptography](#fundamental-math-used-in-cryptography)
-  - [Prime numbers](#1-prime-numbers)
-  - [Modular Arithmetic](#2-modular-arithmetic)
-  - [Euclidean/Extended Euclidean Algorithm](#3-euclideanextended-euclidean-algorithm)
-  - [Modular Inverse (aka Multiplicative inverse)](#4-modular-inverse-aka-multiplicative-inverse)
-  - [Integer Factoring Problem](#5-integer-factoring-problem)
-  - [Discrete Logarithm Problem (DLP)](#6-discrete-logarithm-problem-dlp)
+  1. [Basic Math](#1-basic-math)
+  2. [Prime numbers](#2-prime-numbers)
+  3. [Euclidean/Extended Euclidean Algorithm](#3-euclideanextended-euclidean-algorithm)
+  4. [Modular Inverse (aka Multiplicative inverse)](#4-modular-inverse-aka-multiplicative-inverse)
+  5. [Integer Factoring Problem](#5-integer-factoring-problem)
+  6. [Discrete Logarithm Problem (DLP)](#6-discrete-logarithm-problem-dlp)
 - [Classical Cryptography](#classical-cryptography)
-  - [Caesar Cipher](#1-caesar-cipher)
-  - [Vigenere Cipher](#2-vigenere-cipher)
-  - [Affine Cipher](#3-affine-cipher)
+  1. [Caesar Cipher](#1-caesar-cipher)
+  2. [Vigenere Cipher](#2-vigenere-cipher)
+  3. [Affine Cipher](#3-affine-cipher)
 - [Modern Cryptography](#modern-cryptography)
-  - [RSA](#1-rsa)
-  - [Deffi-Hellman Key Exchange protocol](#2-deffi-hellman-key-exchange-protocol)
-  - [ElGamal](#3-elgamal)
-  - [SHA256](#4-sha256)
-  - [DSA](#5-dsa)
-  - [Shamir's Secret Sharing](#6-shamirs-secret-sharing)
-  - [Homomorphic Encryption](#7-homomorphic-encryption)
+  1. [RSA](#1-rsa)
+  2. [Deffi-Hellman Key Exchange protocol](#2-deffi-hellman-key-exchange-protocol)
+  3. [ElGamal](#3-elgamal)
+  4. [SHA256](#4-sha256)
+  5. [DSA](#5-dsa)
+  6. [Shamir's Secret Sharing](#6-shamirs-secret-sharing)
+  7. [Homomorphic Encryption](#7-homomorphic-encryption)
 ## Fundamental Math used in Cryptography
 
+### 1. Basic Math
+- [Modular Arithmetic](https://github.com/0xkzam/cryptography/blob/main/BasicMath.md#1-modular-arithmetic)
+- [Groups](https://github.com/0xkzam/cryptography/blob/main/BasicMath.md#2-groups)
+- [Fields](https://github.com/0xkzam/cryptography/blob/main/BasicMath.md#3-fields)
 
-### 1. Prime numbers
+### 2. Prime numbers
 - **Fundamental theorem of arithmetic** states that every integer greater than 1 is either a prime number itself or it can be factorized into prime numbers.
 - Tests for primality
   - Deterministic tests: AKS Primality Test, Elliptic Curve Primality Proving (ECPP), Miller-Rabin Test-Deterministic, etc.
@@ -32,23 +36,6 @@ This repo is created solely for the purpose of studying basic cryptography. The 
 - Deterministic tests consume more computational power as the numbers get large, this is why probabilic tests are used to mitigate this issue. However in practical applications, both deterministic and probabilistic tests are used in conjunction. Typically, multiple rounds of probabilistic tests are done initially to filter out composite numbers and the final verification (in critical applications) is done with a deterministic test.
 - The probabilistic version of the **Miller–Rabin** test for large prime numbers is implemented [here](https://github.com/0xkzam/cryptography/blob/876fc080ed0e2bfc0c8f9f7e3c7804b077684d64/util/math.py#L144).
   - Reference: [link](https://en.wikipedia.org/wiki/Miller%E2%80%93Rabin_primality_test#Miller%E2%80%93Rabin_test)
-
-
-
-### 2. Modular Arithmetic
-- $a, b$ and $n$ are positive integers. If the remainders of $a$ and $b$ when divided by $n$ are equal, then the integers $a$ and $b$ are congruent. It’s denoted as follows,
-  - $a ≡ b \pmod{n}$
-- Properties
-  - Addition
-    - If $a ≡ b \pmod{n}$ and $c ≡ d \pmod{n}$, then $a + c ≡ b + d \pmod{n}$	
-    - If $a ≡ b \pmod{n}$, then $a + k ≡ b + k \pmod{n}$ for any integer $k$
-    - If $a + b = c$, then $a \pmod{n} + b \pmod{n} ≡ c \pmod{n}$
-  - Multiplication 
-    - If $a.b = c$, then $a \pmod{n} . b \pmod{n} ≡ c \pmod{n}$
-    - If $a ≡ b \pmod{n}$, then $ka  ≡ kb \pmod{n}$ any integer $k$
-    - If $a ≡ b \pmod{n}$ and $c ≡ d \pmod{n}$, then $a * c ≡ b * d \pmod{n}$
-  - Exponentiation
-    - If $a ≡ b \pmod{n}$, then $a^k ≡ b^k \pmod{n}$ for any positive integer $k$
 
 
 ### 3. Euclidean/Extended Euclidean Algorithm 
