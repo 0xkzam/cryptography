@@ -114,6 +114,12 @@ class Test(TestCase):
         with self.assertRaises(ValueError):
             mod_inverse(464632, 26)
 
+        # multiplicative inverse of 2 modulo 2^{64} - 2^{32} + 1
+        a = 2
+        p = 18446744069414584321
+        a_inv = mod_inverse(a, p)
+        print("mod inverse of mini-Goldilocks prime: " + str(a_inv))
+
     def test_q1_isprime(self):
 
         for p in Test.primes_first_1000:
