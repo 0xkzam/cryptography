@@ -33,12 +33,8 @@
     ||Additive|Multiplicative|
     |--|--|--|
     |Closure|$a+b∈F$|$a*b ∈F$|
-    |Associativity|$(a+b)+c = a+(b+c)$|$(a*b)*c = a*(b*c)$|
+    |Associativity| $(a+b)+c = a+(b+c)$ | $(a * b) * c = a * (b * c)$ |
     |Identity|$I = 0$ |$I=1$|
     |Invertibility|$a+ (-a)=I=0$|$a*a^{-1}=I=1$|
-    |Commutativity|$a+b = b+a$|$a*b=b*a$|
- 
-    |||
-    |--|--|
-    |Distributive property|$a*(b+c) = (a*b)+(a*b)$|
-    |||
+    |Commutativity|$a+b = b+a$| $a * b=b * a$ |
+- Distributive property: For all elements $a,b,c$ in the field, $a*(b+c)=(a * b)+(a * c)$ holds.
